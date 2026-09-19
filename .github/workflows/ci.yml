@@ -29,6 +29,26 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
+      - name: Cache WASM build artifacts
+        uses: actions/cache@v6.1
+        with:
+          path: |
+            poppler.wasm
+            poppler.js
+          key: ${{ runner.os }}-poppler-wasm-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
+          restore-keys: |
+            ${{ runner.os }}-poppler-wasm-
+
+      - name: Cache test reference files
+        uses: actions/cache@v6.1
+        with:
+          path: |
+            test/reference/images
+            test/reference/text
+          key: ${{ runner.os }}-test-reference-${{ hashFiles('test/fixtures/**/*.pdf') }}
+          restore-keys: |
+            ${{ runner.os }}-test-reference-
+
       - name: Build WASM library if needed
         run: |
           if [ ! -f poppler.wasm ] || [ ! -f poppler.js ]; then
