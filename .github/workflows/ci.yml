@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Cache WASM build artifacts
-        uses: actions/cache@v6.1
+        uses: actions/cache@v6.1.0
         with:
           path: |
             poppler.wasm
@@ -40,7 +40,7 @@ jobs:
             ${{ runner.os }}-poppler-wasm-
 
       - name: Cache test reference files
-        uses: actions/cache@v6.1
+        uses: actions/cache@v6.1.0
         with:
           path: |
             test/reference/images
