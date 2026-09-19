@@ -1,0 +1,10 @@
+poppler.js
+poppler.wasm
+pdftotext.js
+pdftotext.wasm
+pdftoppm.js
+pdftoppm.wasm
+node_modules
+poppler-*
+*.png
+*.txt
