@@ -1,0 +1,711 @@
+                                                   E D I T I O N
+
+
+                                                   Sarum
+
+
+
+
+Ludovico Grossi da Viadana      c. 1560 – 1627
+
+
+
+Quem vidistis, pastores?
+from “Cento Concerti Ecclesiastici a Una, a Due,
+a Tre, e a Quattro voci” (1602)
+4
+
+
+
+
+Introduction
+
+
+
+                              Iniquissimam pacem justissimo bello antefero.
+                 I prefer, says the sagacious and humane Cicero, the most impolitic
+                  and disadvantageous peace, to the justest war; and yet with what
+                 precipitancy and on what trifling occasions do countries often rush
+                                      into war with each another!
+
+                                          – Erasmus, Adagia, 1508 1
+
+
+
+BY 1530 EUROPE had tired of war. For decades the respective rulers of France and the Habsburg
+Empire had squabbled over control of the wealth and power of the Italian city-republics and the
+Papal States. Open warfare broke out in 1494; the next sixty years were marked by both diplomatic
+intrigue and armed conflict.
+        Alliances were formed, broken, and reformed. The Sforza family of Milan were the first to
+manipulate the foreign powers; in forging an alliance with the French they hoped to secure Milan’s
+position against the rising influence of Venice. The results were disastrous. Both Naples and Milan
+fell under Habsburg control after the French were comprehensively defeated in 1526. In Rome,
+Pope Julius II first aligned himself with the French against the Venetians, then reversed course and
+backed the Venetians against the French; such outrageous diplomatic manoeuvres were designed
+to maintain the delicate position of the Papal States, but Julius’s duplicity and corruption, coupled
+with that shown by his successor Clement VII against the Habsburgs, led to the Sack of Rome by
+Habsburg troops in 1527.
+        The elevation of Charles V to the title of Holy Roman Emperor in 1521 inflamed tensions
+with France still further, for many of those who had supported Charles had been bribed to ensure
+the title of Emperor remained out of France’s grasp. The capture of Francis I at the Battle of Pavia
+in 1525 prompted the French to forge an unprecedented alliance between Catholic France and the
+
+
+
+1   Translated in “Proverbs, Chiefly Taken from the Adagia of Erasmus with Explanations”, Egerton, 1814.
+                                                                                                     5
+
+
+Muslim Ottomans that scandalised the Christian world. The emboldened Turks invaded Hungary
+in 1526 and threatened to expand further into Europe before being held back at the Siege of
+Vienna.
+       With France agitating in the West and the Ottomans in the East, Charles could ill afford
+social discord within his own territories. Yet domestically, too, he faced serious challenges. In 1517
+Martin Luther began his protests against ecclesiastical indulgences; the rise of the printing press
+ensured that his complaints spread rapidly through the Habsburg territories. The problem was
+serious: Luther had challenged the infallibility of the Pope, and if the Pope could be fallible then
+the Pope’s Emperor could be also. The 1521 Imperial Diet in the city of Worms was convened to
+debate the matter, with Charles himself presiding; Luther was summoned to appear, and declared
+by imperial decree to be a heretic:
+
+
+      “... We [Charles V] forbid anyone from this time forward to dare, either by words or by
+      deeds, to receive, defend, sustain, or favour the said Martin Luther. On the contrary,
+      We want him to be apprehended and punished as a notorious heretic, as he
+      deserves ...”
+
+It was too late. Luther had already been safely spirited away from Worms by Frederick III of
+Saxony, and when he emerged from a period of enforced solitude – the first translation of the Bible
+in German the product of his exile – Charles failed to press for his capture, being by now too
+distracted by war and diplomacy. The teachings of Luther spread. The Reformation had begun.
+
+
+                                                ***
+
+
+Augsburg was by this time one of the richest cities in the Empire. The mining profits of the Fugger
+family had financed both the massive bribery necessary to guarantee the elevation of Charles to
+Holy Roman Emperor as well as the state of continual war that had by now lasted for decades. On
+the back of huge loans to the Imperial Treasury the Fugger family had become immensely rich,
+and, as generous patrons, their home city of Augsburg had also prospered. Neither were they the
+only wealthy citizens. Charles’ grandfather, Maximilian I, had made Augsburg, Innsbruck and
+Vienna his three principal courts, and these cities rapidly became important cultural centres
+during the Germanic and Austrian Renaissance, with Maximilian’s Kapelle attracting German
+speaking musicians of international renown such as Heinrich Isaac, Ludwig Senfl and Paul
+Hofhaimer.
+6
+
+
+        The Franciscan monk Sigmund Salblinger2 (ca. 1500 – ?1563) had been so greatly affected by
+Luther’s teachings that he renounced his membership of the Franciscan order in Munich in 1526
+and moved to Augsburg to join the Reformist Anabaptist movement there. Soon he was elected its
+leader. Imperial disapproval of Reformists resulted in Salblinger’s imprisonment in 1527; he was
+ordered to leave the city in 1531. Somehow, perhaps with the support of patrons, he successfully
+petitioned to remain in Augsburg; by 1537 he had been reinstated to full citizenship, and by 1539
+he had secured imperial assent for the publication of a new collection of music. This was a notable
+achievement given his public history of Reformist sympathies.
+        Until this point Salblinger had collaborated with the printer Philipp Ulhart on his
+pamphlets and publications, but for this new project (perhaps due to the specialist demands
+associated with printing music) he selected a new printer, Melchior Kriesstein (ca. 1500 – ?1572),
+who had moved to Augsburg from Basel sometime before 1525 to continue the family printing
+business.
+
+
+                                                           ***
+
+
+The Ottoman attack on Vienna in 1529 had been a particular shock to Charles’ brother, Ferdinand
+I, for it was in Vienna that he held his court; the Siege had forced him to flee to Bohemia. That
+Hungary was now a protectorate of the Muslim Suleiman the Magnificent was not only a
+significant diplomatic embarrassment to the Habsburg Empire but also a measure of the steadily
+increasing military power of the Ottomans.
+        It was essential that the Empire show a united front against this Eastern threat, but the
+ongoing religious controversies in imperial Germany, Austria and Switzerland made this
+impossible. Charles called for a new Imperial Diet to be held in Augsburg in the spring of 1530
+tasked with finding a solution to the ongoing religious schism. Luther was ordered to attend but
+declined to do so, having received no guarantee of safe passage to and from Augsburg. Other
+Reformist leaders attended in his stead, presenting their articles of faith – drafted diplomatically so
+as to avoid strident language or abuse of the papacy – in the Confession of Augsburg.
+        Their care was in vain. The Diet rejected the Confession in September 1530 and demanded
+the Reformists renounce their heresy. Entrenched positions on both sides of the schism led
+inexorably to civil war between Catholic Imperials and an alliance of Lutheran princes. The
+
+2   The surname is spelt “Salminger” in some modern publications, including The New Grove Dictionary of Music and
+    Musicians. This Edition follows the spelling in the source.
+                                                                                                    7
+
+
+Imperial forces would ultimately prevail, but it was not until 1555 that Ferdinand could negotiate a
+lasting peace between the two sides; by this time Protestantism was so firmly entrenched in the
+culture of central Europe that Ferdinand had to choose between enforcing Catholicism across the
+Empire through the application of military force or accepting the demands of state princes to freely
+determine which religion would be practised within their territories. Recognising that the former
+would mean widespread revolt across core Habsburg territories, Ferdinand chose the latter. This
+Settlement of Augsburg of 1555 was a major victory for Protestantism.
+
+
+                                                ***
+
+
+It is against this background of incipient religious schism that Salblinger and Kriesstein published
+the Selectissimae Necnon Familiarissimae. Ferdinand himself had granted royal approval in October
+of 1539, deeming the publication “nihil obscoeni habeant inque Ecclesia Christinana receptae sint,
+atque adeo Catholicae Fidei Religionique nostrum conveniant” (“containing nothing objectionable,
+[therefore being] acceptable in the Church of Christ, even the Catholic Faith of Our Religion”) and
+granting Salblinger a license of copyright for a period of five years. 3 It seems remarkable that the
+brother of the Holy Roman Emperor should grant such an assent to a known Reformist.
+        By the standards of its day Selectissimae Necnon Familiarissimae is a large publication. It
+includes 104 items by 42 composers and one anonymous item. 4 Five languages are represented; in
+his introductory letter to the publication, Salblinger hopes that, by presenting Latin (Catholic) and
+German (Protestant) works together, the music in the publication can have a unifying effect. 5 One
+of the few areas in which Catholics and Protestants found any agreement was the importance of
+music in the liturgy. Luther himself had referred to music as “Dei donum optimi” (“the gift of the
+supreme God”) and lauded Josquin as the world’s greatest composer. Salblinger tends towards the
+poetic rather than the explicit in his hope that music might be a unifying force for good between
+Catholics and Reformists, perhaps exhibiting care in his choice of language due to the tensions
+
+
+
+
+3   Translated in Appendix iii.
+4   Catalogued in Appendix iv.
+5   Translated in Appendix iii.
+                                                                                                                                                                                                                                        3
+
+
+
+        Quem vidistis, pastores?
+        Ludovico Grossi da Viadana                                                     c. 1560 ± 1627
+
+
+                                                                                                                      4                                                            
+                                                                                                                                                                                                                                      
+                                                                                                                                                                                   2
+
+                                                                                                                                                 
+                                                                                                                           2
+     Canto                                                                                    Soprano
+
+                            QVem vidiftis paftores                          ij                                                             ªQuem                vi                     di                     stis,       pa
+
+                                                                                                                                                                                                               
+                                                                                                           Organ                   42                                                                                           
+
+
+                                                                                                                                                                                                                                 
+     Basso
+                                                                                                       Bass                     [ 42 ]  
+                            QVem vidifti
+
+
+
+
+                                                                                                                                                
+                                                                                                                                                                                                                  
+       3                                                        4                                                             5                                               6
+
+ S                                                                                                                                                                                                                                   
+               sto                    res,                                                                     quem                   vi         di                               stis,                pa           sto
+
+
+                                                                                                                                                                                                                            
+                                                                                                                                                                                              
+                                                                                                                                                                                                                                  
+
+
+            
+Org.
+
+                                                                                                                                                                                                                                  
+                                                                                                                                                    
+
+
+
+
+                                                                                                                             
+                                                                         
+       7                                                                                  8                                                                          9
+
+                                                                                                                                                                                                           
+ S
+                                                                                                                                                                                                                                
+               res,              di                                              ci           te,               di                                                                 ci            te,                      an
+
+                                                                                                                                                                                                           
+                              
+                                                      
+                                                                                                                                                                                       
+                                                                                                                                                                                                               
+                                                                                                                                                                                                                                        
+
+Org.
+                                                                                                                                                                                                                                
+                                                                                                                                                                                                                           
+                                                                        
+
+
+
+
+                                                                                                                                                                                        
+       10             (1)                                  11                                                            12                                                        13
+
+ S                                                                                                                                                                                                                               
+               nun ti        a te no bis,                               an nun ti                         a      te       no               bis,                      an             nun ti                  a te no            bis:
+
+
+                                                                                                                                                                                                                
+                                                                                                                          
+
+                                                                                                                                                                                            
+Org.
+                                                                          
+                                                                                               
+                                                                                                           
+                                                                                                                              
+                                                                                                                                                                                                                                       
+                                                                                                                                                      
+
+        1 Canto, bar 10 et al: source consistently underlays ªannunciateº rather than ªannuntiateº.
+               4                                                                                                                                                                                       Quem vidistis, pastores?
+
+
+                                                   
+                                                
+       14                                                    15                                                           16                                                                 17
+
+ S                                                                                                                                                                                                                              
+                    in        ter                                 ris        quis                           ap             pa                            ru        it,
+
+
+                                                                                                                                                                                                
+                                                                                                                                                                                                                   
+       
+                                                                                                                                                                                                                             
+Org.
+
+                                                                                                                                                                                                                               
+                                           
+
+
+
+
+                                                                                                                                                                                                                           
+       18                                                                    19                                                                                     20
+
+ S                                                                                                                                                                                    
+                   quis      ap       pa                                                                                                                 ru              it,                 quis                           ap
+
+
+
+                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                        
+       
+                                                                                                                                                                                                                  
+
+                                                                                                                                                                                                                  
+Org.
+
+                                                                                                                                                                                                                                 
+                                                                                                           
+                                                                                                                                                    
+
+
+
+
+                                                                                                                                                             
+       21                                                    22                                         23                                                               24
+
+ S                                                                                                                                                                                                                          
+                    pa                                                           ru        it?º                                                           ªNa                           tum                vi                    di
+
+
+                                                                                                                                                           
+                                                                                                                                                                                                                       
+                                                                                                                                                                                                                         
+       
+                                                                                                                                                                                                                                  
+Org.
+
+                                                                                                                                                                                                                                  
+                                                                                                                 
+                                                                                 
+
+
+
+
+                                                                                                                                                             
+       25                                                    26                                              27                                                                    28
+
+ S                                                                                                                                                                                                                               
+                   mus,       na                       tum         vi                              di             mus,                                        na                                       tum            vi
+
+
+                                                                                                              
+                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                             
+           
+                                                                                                                                 
+Org.
+
+                                                                                                                                                                                                                             
+                                                                                                                                                                                     
+                                                                                          
+           Ludovico Grossi da Viadana                                                                                                                                                                                                                        5
+
+
+                                                                                                                                                                                                                         
+                                                                                                                                                                  
+       29                                                            30                                                       31                                                              32
+
+                                                                                                                                                                                                                                                       
+ S
+                                                                                                                                                                                                             
+                                 di          mus,                                      et       cho ros                           An           ge                 lo                          rum col lau dan tes Do
+
+
+
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                         
+       
+                                                                                                                                                                                                                                     
+Org.
+
+                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                          
+             
+
+
+
+
+       33                                                   34                                                               35                                                              36
+
+                                                                                                                                                                                                                                          
+ S
+                                                                                                                                                                             
+                     mi num,                      et            cho            ros          An              gel                   lo                              rum col lau dan tes Do                                                   mi num,
+
+
+                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                     
+       
+                                                                                                                                                                                                                                                  
+Org.
+
+                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                         
+
+
+
+
+                                                                                                                                                                                                                                                          
+       37                                                   38                                                           39                                                                    40
+
+ S                                                                                                                                                                                                                                             
+                                                       et       cho ros                     An              ge                lo                             rum            col lau                dan               tes Do mi num,
+
+
+                                                                                                                                                                                            
+                                                                                                                                                                                                                                               
+       
+                                                                                                                                                                                                                                                            
+Org.
+
+                                                                                                                                                                                                                
+                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                             
+
+
+
+
+              
+       41                                                                  42                                                                           43
+
+                                                                                                                                                                                                                                                   
+                                                                                                                                                                    
+ S
+
+               col lau dan                   tes Do          mi num.º                                                              Al                        le
+
+
+
+                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                     
+       
+                                                                                                                                                                                                                                                            
+Org.
+
+                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                    
+               6                                                                                                                                                 Quem vidistis, pastores?
+
+
+
+                                                                                              
+                                                                                                                                                                                 
+       44                                                             45                                                               46
+
+ S                                                                                                                                                                 
+                              lu    ia,                al                  le                                                                    lu        ia,                       al
+
+                                                                                                                                                                
+                                                                                                                                                                                            
+       
+                                                                                                                                                        
+                                     
+                                                                                                                                                                            
+Org.
+                                                                                                                                                                                           
+
+
+
+
+                                                                     Possible editorial alternative underlay
+
+                                                                48                                       49                                               50
+                                                                                                                                              
+                                                                                al      le        lu      ia,      al                le lu            -
+
+
+                  
+       47
+
+                                                                                                                                
+ S                                                                                                                                                                              
+                      le                          lu ia,                        al      le        lu                                                                                      ia.
+
+                                                                                                                                                         
+                                                                                                                                                                                         
+           
+                                                                                                                                                                                       
+
+                 
+Org.
+                                                                                                                                       
+                                   (2)
+
+                                                                                                                                                           
+                                                                                                                                                                                          
+                                                                                                                                                                 
+
+
+
+
+               Cento Concerti Ecclesiastici a Una, a Due, a Tre, e a Quattro voci
+               Giacomo Vincenti, Venice, 1605
+               Edited by Alastair Carey
+
+               Source is the 1605 reprint of the original 1602 publication. Item #2 in the source. Folio pages f5r (binding B1) in both Canto and
+               Basso partbooks. The Basso partbook is barred; the Canto partbook is not. The piece is marked ªCanto solo, ó Tenoreº in the Basso
+               partbook, indicating it can be sung either by a Soprano or by a Tenor down an octave.
+
+               V. Quem vidistis, pastores,                                           What did you see, shepherds,
+               dicite, annuntiate nobis:                                             speak, tell us:
+               in terris quis apparuit?                                              who has appeared on earth?
+
+               R. Natum vidimus,                                                     We saw the new-born,
+               et choros angelorum collaudantes Dominum.                             and choirs of angels praising the Lord.
+               Alleluia.                                                             Alleluia.
+                                                                                                                                    Third responsory at Matins on Christmas Day
+
+
+
+
+               2 Basso, bar 47: one tone lower in source.
+                                     Application to Register Permanent Residence
+                                                   or Adjust Status                                                               USCIS
+                                                                                                                                Form I-485
+                                                 Department of Homeland Security                                            OMB No. 1615-0023
+                                               U.S. Citizenship and Immigration Services                                    Expires 03/31/2023
+
+
+                                                           For USCIS Use Only
+Preference Category:                                            Receipt                                          Action Block
+
+Country Chargeable:
+
+Priority Date:
+
+Date Form I-693 Received:
+                                                             Section of Law
+      Applicant        Interview
+      Interviewed      Waived                 INA 209(a)        INA 249
+ Date of                                      INA 209(b)        Sec. 13, Act of 9/11/57
+ Initial Interview:                           INA 245(a)        Cuban Adjustment Act
+ Lawful Permanent                             INA 245(i)        Other
+ Resident as of:                              INA 245(m)
+
+
+                                   To be completed by an attorney or accredited representative (if any).
+
+       Select this box if      Volag Number                  Attorney State Bar Number           Attorney or Accredited Representative
+       Form G-28 is            (if any)                      (if applicable)                     USCIS Online Account Number (if any)
+       attached.
+
+
+► START HERE - Type or print in black ink.                                                 A-Number ► A-
+
+NOTE TO ALL APPLICANTS: If you do not completely fill out this application or fail to submit required documents listed in the
+Instructions, U.S. Citizenship and Immigration Services (USCIS) may deny your application.
+                                                                              3.a. Family Name Doe
+Part 1. Information About You (Person applying                                     (Last Name)
+for lawful permanent residence)                                               3.b. Given Name John
+                                                                                   (First Name)
+Your Current Legal Name (do not provide a
+                                                                              3.c. Middle Name
+nickname)
+1.a. Family Name                                                              4.a. Family Name
+     (Last Name)                                                                   (Last Name)
+1.b. Given Name                                                               4.b. Given Name
+     (First Name)                                                                  (First Name)
+1.c. Middle Name                                                              4.c. Middle Name
+
+Other Names You Have Used Since Birth (if                                     Other Information About You
+applicable)
+                                                                              5.    Date of Birth (mm/dd/yyyy)            01/01/1981
+NOTE: Provide all other names you have ever used, including
+your family name at birth, other legal names, nicknames,                            NOTE: In addition to providing your actual date of birth,
+aliases, and assumed names. If you need extra space to                              include any other dates of birth you have used in
+complete this section, use the space provided in Part 14.                           connection with any legal names or non-legal names in
+Additional Information.                                                             the space provided in Part 14. Additional Information.
+2.a. Family Name                                                              6.    Sex           Male        Female
+     (Last Name)
+2.b. Given Name                                                               7.    City or Town of Birth
+     (First Name)
+                                                                                    Unknown
+2.c. Middle Name
+
+
+Form I-485 Edition 03/29/21                                                                                                        Page 1 of 18
+                                                                                   A-Number ► A-
+
+
+Part 1. Information About You (Person applying                      Social Security Card
+for lawful permanent residence) (continued)                         14.   Has the Social Security Administration (SSA) ever
+                                                                          officially issued a Social Security card to you?
+8.      Country of Birth
+                                                                                                                       Yes       No
+        Unknown
+                                                                          If you answered “Yes,” provide the information requested
+9.      Country of Citizenship or Nationality
+                                                                          in Item Number 15.
+        Unknown
+                                                                    15.   Provide your U.S. Social Security Number (SSN).
+10.     Alien Registration Number (A-Number) (if any)                     ►
+                              ► A-
+                                                                    16.   Do you want the SSA to issue you a Social Security card?
+        NOTE: If you have EVER used other A-Numbers,                      (You must also answer “Yes” to Item Number 17.
+        include the additional A-Numbers in the space provided            Consent for Disclosure, to receive a card).
+        in Part 14. Additional Information.                                                                           Yes     No
+11.     USCIS Online Account Number (if any)
+                                                                    17.   Consent for Disclosure: I authorize disclosure of
+                   ►                                                      information from this application to the SSA as required
+                                                                          for the purpose of assigning me an SSN and issuing me a
+                                                                          Social Security Card.
+U.S. Mailing Address                                                                                                 Yes        No
+
+12.a. In Care Of Name (if any)
+      sdf
+                                                                    Recent Immigration History
+                                                                    Provide the information for Item Numbers 18. - 24. if you last
+12.b. Street Number tt
+      and Name                                                      entered the United States using a passport or travel document.
+
+12.c.       Apt.       Ste.      Flr. tt                            18.   Passport Number Used at Last Arrival
+                                                                          0
+12.d. City or Town
+                                                                    19.   Travel Document Number Used at Last Arrival
+12.e. State             12.f. ZIP Code
+                                           (USPS ZIP Code Lookup)
+                                                                    20.   Expiration Date of this Passport or Travel Document
+Alternate and/or Safe Mailing Address                                     (mm/dd/yyyy)
+If you are applying based on the Violence Against Women Act
+                                                                    21.   Country that Issued this Passport or Travel Document
+(VAWA) or as a special immigrant juvenile, human trafficking
+victim (T nonimmigrant), or victim of a qualifying crime (U               0
+nonimmigrant) and you do not want USCIS to send notices             22.   Nonimmigrant Visa Number from this Passport (if any)
+about this application to your home, you may provide an
+alternative and/or safe mailing address.                                  0
+
+13.a. In Care Of Name (if any)                                      Place of Last Arrival into the United States
+                                                                    23.a. City or Town
+13.b. Street Number                                                       0
+      and Name
+                                                                    23.b. State   AA
+13.c.       Apt.       Ste.      Flr.
+                                                                    24.   Date of Last Arrival (mm/dd/yyyy)
+13.d. City or Town
+
+13.e. State             13.f. ZIP Code
+
+
+
+
+Form I-485 Edition 03/29/21                                                                                              Page 2 of 18
+                                                                                     A-Number ► A-
+
+
+Part 1. Information About You (Person applying                       Part 2. Application Type or Filing Category
+for lawful permanent residence) (continued)                          NOTE: Attach a copy of the Form I-797 receipt or approval
+                                                                     notice for the underlying petition or application, as appropriate.
+When I last arrived in the United States, I:
+                                                                     I am applying to register lawful permanent residence or adjust
+25.a.       Was inspected at a port of entry and admitted as (for
+                                                                     status to that of a lawful permanent resident based on the
+            example, exchange visitor; visitor, waived through;
+                                                                     following immigrant category (select only one box). (See the
+            temporary worker; student):
+                                                                     Form I-485 Instructions for more information, including any
+                                                                     Additional Instructions that relate to the immigrant category
+                                                                     you select.):
+25.b.       Was inspected at a port of entry and paroled as (for
+            example, humanitarian parole, Cuban parole):             1.a. Family-based
+                                                                               Immediate relative of a U.S. citizen, Form I-130
+25.c.       Came into the United States without admission or                   Other relative of a U.S. citizen or relative of a lawful
+            parole.                                                            permanent resident under the family-based preference
+                                                                               categories, Form I-130
+25.d.       Other:
+                                                                               Person admitted to the United States as a fiancé(e) or
+                                                                               child of a fiancé(e) of a U.S. citizen, Form I-129F
+If you were issued a Form I-94 Arrival-Departure Record Number:                (K-1/K-2 Nonimmigrant)
+26.a. Form I-94 Arrival-Departure Record Number                                Widow or widower of a U.S. citizen, Form I-360
+                       ►                                                       VAWA self-petitioner, Form I-360
+26.b. Expiration Date of Authorized Stay Shown on Form I-94          1.b. Employment-based
+        (mm/dd/yyyy)                                                           Alien worker, Form I-140
+26.c. Status on Form I-94 (for example, class of admission, or                 Alien entrepreneur, Form I-526
+      paroled, if paroled)
+                                                                     1.c. Special Immigrant
+                                                                               Religious worker, Form I-360
+27.     What is your current immigration status (if it has changed
+                                                                               Special immigrant juvenile, Form I-360
+        since your arrival)?
+                                                                               Certain Afghan or Iraqi national, Form I-360
+                                                                               Certain international broadcaster, Form I-360
+Provide your name exactly as it appears on your Form I-94 (if
+                                                                               Certain G-4 international organization or family
+any)
+                                                                               member or NATO-6 employee or family member,
+28.a. Family Name                                                              Form I-360
+      (Last Name)
+                                                                     1.d. Asylee or Refugee
+28.b. Given Name
+      (First Name)                                                             Asylum status (INA section 208), Form I-589 or
+28.c. Middle Name                                                              Form I-730
+                                                                               Refugee status (INA section 207), Form I-590 or
+                                                                               Form I-730
+                                                                     1.e. Human Trafficking Victim or Crime Victim
+                                                                               Human trafficking victim (T Nonimmigrant), Form
+                                                                               I-914 or derivative family member, Form I-914A
+                                                                               Crime victim (U Nonimmigrant), Form I-918,
+                                                                               derivative family member, Form I-918A, or
+                                                                               qualifying family member, Form I-929
+
+
+
+
+Form I-485 Edition 03/29/21                                                                                                 Page 3 of 18
+E D I T I O N
+
+
+Sarum
+

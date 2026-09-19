@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    name: Regression Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install system dependencies (Poppler CLI)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build WASM library if needed
+        run: |
+          if [ ! -f poppler.wasm ] || [ ! -f poppler.js ]; then
+            echo "poppler.wasm / poppler.js not found, running build..."
+            npm run build
+          else
+            echo "poppler.wasm and poppler.js found."
+          fi
+
+      - name: Run visual and text regression tests
+        run: npm test
+
+      - name: Build npm package
+        run: npm pack
+
+      - name: Upload npm package artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: npm-package
+          path: "*.tgz"

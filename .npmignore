@@ -2,3 +2,5 @@ Dockerfile
 .dockerignore
 src/
 fonts/
+test/
+.github/

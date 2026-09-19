@@ -8,3 +8,10 @@ node_modules
 poppler-*
 *.png
 *.txt
+
+# Allow test reference files to be committed
+!test/reference/**/*.png
+!test/reference/**/*.txt
+
+# Test diff outputs
+test/diff/

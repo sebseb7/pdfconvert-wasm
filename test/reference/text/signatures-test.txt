@@ -1,0 +1,157 @@
+Developer Resources for Java Technology
+                                                                                                       Signed By: Alice
+
+  Sun Java Solaris Communities My SDN Account Join
+                                                                                                       Location: Sign Location / city  TRAIL
+                                                                                                       Reason: This is the trial version, please buy to activate.
+  SDN                                                                                                  Signing Date: 02/10/2009
+                                                                                                       Contact Info: some contact info...
+  Developers Home > Products & Technologies >
+
+
+Java.sun.com
+The Source for Java Developers
+  2008 JavaOne Conference                                                                                           Popular Downloads:
+                            2008 JavaOne Conference Wrap-Up                                                         Java SE
+                            SDN staffer Laureen Hudson is pleased to report that this year's conference             Java EE 5 SDK
+                            was ubiquitous in all worlds -- real, virtual (Second Life), and via webcast.           Java ME
+                            Now, you CAN be in several places at the same (time-shifted) time.                      NetBeans IDE
+                            Visit the 2008 JavaOne Conference Site                                                  MySQL
+Daily Prompt: Day 4 - Another JavaOne Conference Is Almost Over                                                     Web Services
+Day 4 from the conference floor; Swing application framework talk, Project Hydrazine, and Wii                       See All
+tennis tips.
+                                                                                                                    Technologies:
+Sentilla's Pervasive Computing -- The Universe Is the Computer
+                                                                                                                    Java SE
+Sentilla CTO Joe Polastre's session on Mote software and pervasive computing illustrated how                        Java EE
+we've moved from "The network is the computer" to "The universe is the computer."
+                                                                                                                    Java ME
+                                                                                                                    JavaFX
+                                                                                                                    Web Services
+All JavaOne and CommunityOne 2008 Blogs Written by Sun Employees.
+                                                                                                                    See All
+
+» Sun General                                                                                                       Resources:
+Technical Session:                                                                                                  Code Samples & Apps
+Java-Centricity -- Java                                                                                             APIs
+Technology at the Hub                                                                                               Documentation
+of Your Digital Life                                                                                                Tutorials
+                                                                                                                    Videos
+» Flooring the                                                                                                      Timezone Updates
+Accelerator                                                                                                         Student Developers
+                                                                                                                    Developer Training
+                                                                                                                    Bug Database
+See All                                                                                                             Java Blueprints
+                                                                                                                    Solaris C/C++/Fortran
+  Featured Content                                                                                                  Compilers
+
+                            May 1, 2008
+                            Creating Portlets for Web Sites With the NetBeans IDE                                  Sun Tech Days
+                            Learn how to create portlets and provide dynamic content by using drag-and-
+                                                                                                                   Get practical information,
+                            drop jMaki widgets in the NetBeans IDE.
+                                                                                                                   examples of real-world
+                                                                                                                   solutions, and hands-on
+Java SE 6 Update 10 Beta                                                                                           training.
+Try out the NEW features by downloading an Early Access release of the NEW Java Platform.
+Java SE 6 Update 10 Beta** is an update release that introduces new features and                                   » Mexico City, Mexico,
+enhancements aimed at providing an optimized consumer-end user experience.                                         May 21-23
+Download                                                                                                           » More Tech Days
+
+» See All Articles | » News and Updates | » Videos
+                                                                                                                    Communities:
+
+  Developer Spotlight                                                                                                  OpenJDK
+
+
+http://java.sun.com/ (1 of 3) [5/13/2008 7:03:31 PM]
+Developer Resources for Java Technology
+                                                                                                                     Signed By: Alice
+                            Ask the Experts: JRuby Support in NetBeans IDE 6                         Location: Sign Location / city
+                                                                                                                     Mobile & Embedded        TRAIL
+                                                                                                     Reason: This is the trial version, please buy to activate.
+                                                                                                     Signing Date: 02/10/2009
+                            Got a question about the JRuby support in NetBeans IDE 6? Post it to the Contact Info: some
+                                                                                                                     GlassFish
+                                                                                                                        contact info...
+                            Ask the Experts page during the week of May 19 and get answers from three
+                            experts: Tor Norbye, Charles Oliver Nutter, and Brian Leonard.                           OpenJFX
+                            Learn more                                                                               NetBeans
+                            NetBeans IDE 6.1 Now Available!                                                                        java.net
+                            NetBeans IDE 6.1 supports a wide range of open source scripting                                        Java Community
+                            technologies and offers improved performance. This release extends                                     Process
+                            language support beyond Java technology by providing a rich set of features
+                            for C/C++, JavaScript and the Ruby language, including Ruby on Rails.                                  SDN Share
+                            Download
+                                                                                                                                 Related Resources:
+                            Java Application Platform SDK Update 5 Released
+                            This latest free-for-use, production-ready SDK includes updates to Sun Java                            Open-Source Java
+                            System Application Server (GlassFish), Open ESB, Portlet Container, and                                Project
+                            more. Download it now and read the overview for details.
+                                                                                                                                   Web Developer
+                                                                                                                                   Resource Center
+
+  Java Learning and Certification                                                                                                  java.com
+New Java Enterprise Architect Certification
+The much anticipated update to the Java Enterprise Architect Certification is now available.
+Achieving this advanced and well respected certification can help get you to the next level in
+your career.
+Learn more
+
+
+» New to Java | » Tutorials | » Certification | » Training | » See All
+
+  From the Blogosphere
+Good News for GlassFish v3
+Jean François Arcand's performance tests on GlassFish v3 are impressive.
+James Gosling on Java Technology
+Take a look at photos that Gosling took at CERN in Switzerland. He writes, "A lot of software at
+CERN is done in Java."
+
+
+» Blogs | » Blogs.sun.com | » Java.net Blogs
+
+  Participate
+Participate with SDN Share:
+SDN Share is the place to share code and technical tips. Vote and comment on the latest posts
+from your peers.
+Sun Open Sources Java Platform Implementations
+Get involved! New Communities:
+
+ ● OpenJDK
+ ● Mobile & Embedded
+ ● GlassFish
+
+ ● OpenJFX
+
+
+
+
+» Forums | » Newsletters and Tips | » Ask the Experts | » User Groups | » See All
+
+
+
+http://java.sun.com/ (2 of 3) [5/13/2008 7:03:31 PM]
+Developer Resources for Java Technology
+                                                                                                                 Signed By: Alice
+                                                                                                                 Location: Sign Location / city  TRAIL
+                                                                                                                 Reason: This is the trial version, please buy to activate.
+                                                                                                                 Signing Date: 02/10/2009
+                                                                                                                 Contact Info: some contact info...
+
+
+                                                  About Sun | About This Site | Newsletters | Contact Us |                 A Sun Developer Network
+                                                  Employment                                                               Site
+                                                  How to Buy | Licensing | Terms of Use | Privacy | Trademarks
+                                                                                                                           Unless otherwise licensed,
+                                                                                                                           code in all technical manuals
+                                                  Copyright Sun Microsystems, Inc.                                         herein (including articles,
+                                                                                                                           FAQs, samples) is provided
+                                                                                                                           under this License.
+                                                                                                                                Sun Developer RSS Feeds
+
+
+
+
+http://java.sun.com/ (3 of 3) [5/13/2008 7:03:31 PM]
+

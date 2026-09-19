@@ -1,0 +1,8 @@
+     An inline comment
+     on this pretty picture
+
+
+
+
+A text object
+

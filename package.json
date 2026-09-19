@@ -18,7 +18,13 @@
   ],
   "scripts": {
     "build": "docker build -o . .",
-    "build:docker": "docker build -o . ."
+    "build:docker": "docker build -o . .",
+    "test": "node test/scripts/compare-text.js && node test/scripts/compare-images.js",
+    "test:compare:images": "node test/scripts/compare-images.js",
+    "test:compare:text": "node test/scripts/compare-text.js",
+    "test:generate": "npm run test:generate:images && npm run test:generate:text",
+    "test:generate:images": "node test/scripts/generate-images.js",
+    "test:generate:text": "node test/scripts/generate-text.js"
   },
   "repository": {
     "type": "git",
@@ -38,5 +44,10 @@
     "pdf-to-png",
     "pdf-to-image"
   ],
-  "license": "GPLv3"
+  "license": "GPLv3",
+  "devDependencies": {
+    "diff": "^9.0.0",
+    "pixelmatch": "^7.2.0",
+    "pngjs": "^7.0.0"
+  }
 }
