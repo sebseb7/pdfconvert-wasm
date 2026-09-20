@@ -168,6 +168,14 @@ jobs:
             poppler.js
           key: ${{ runner.os }}-poppler-wasm-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
 
+      # `npm run build:docker` uses `docker build -o .` (custom output
+      # export), which requires BuildKit/buildx. Windows runners ship the
+      # legacy builder by default and fail with "unknown shorthand flag: 'o'
+      # in -o", so set up buildx before building.
+      - name: Set up Docker Buildx
+        if: env.BENCH_SKIP != '1' && steps.wasm-cache.outputs.cache-hit != 'true'
+        uses: docker/setup-buildx-action@v3
+
       - name: Build WASM library if needed
         if: env.BENCH_SKIP != '1' && steps.wasm-cache.outputs.cache-hit != 'true'
         run: npm run build:docker
