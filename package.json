@@ -3,14 +3,20 @@
   "version": "0.2.0",
   "description": "WebAssembly PDF to text and PDF to PNG converter based on poppler-cpp",
   "type": "module",
-  "main": "./index.js",
+  "main": "./index.node.js",
   "module": "./index.js",
   "exports": {
-    ".": "./index.js",
+    ".": {
+      "node": "./index.node.js",
+      "default": "./index.js"
+    },
     "./poppler.wasm": "./poppler.wasm"
   },
   "files": [
     "index.js",
+    "index.node.js",
+    "node-worker-client.js",
+    "node-worker.js",
     "poppler.js",
     "poppler.wasm",
     "LICENSE",

@@ -15,6 +15,8 @@ The purpose of this library is **pixel-identical PDF to image rendering** on any
 
 No native dependency headaches: unlike `canvas` (node-canvas), which is notoriously painful to install on Windows, there are no system libraries to build or install — just pure JavaScript + a precompiled `.wasm` binary.
 
+In Node.js, conversions run in a reusable worker thread, keeping the main event loop responsive. Browser builds run in the calling thread by default and can optionally be placed in a Web Worker.
+
 **Fonts are bundled**: all fallback font metrics ship with the package, so font rendering and antialiasing are pixel-perfect and fully independent of which fonts are installed on the host platform.
 
 - **exports**: **`pdfToText`** and **`pdfToPng`**.
@@ -166,6 +168,8 @@ self.onmessage = async (e) => {
   * **`noPageBreaks`** (`boolean`, default: `false`): Don't insert form-feed (`\f`) between pages.
 * **Returns**: `Promise<string>`
 
+In Node.js this operation is dispatched to a worker thread. For code that is already running in a worker, `pdfToTextSync` avoids the extra dispatch (it still returns a `Promise`, but performs the CPU work on the calling thread).
+
 ### `pdfToPng(pdfSource, options?)`
 
 * **`pdfSource`**: `Uint8Array | ArrayBuffer | Buffer | Blob | File`
@@ -178,6 +182,8 @@ self.onmessage = async (e) => {
   * **`scaleToY`** (`number`): Scale height to this size in pixels (`-1` for proportional to width).
   * **`singleFile`** (`boolean`, default: `false`): Only render the first requested page.
 * **Returns**: `Promise<Array<{ pageNumber: number, name: string, data: Uint8Array }>>`
+
+In Node.js this operation is dispatched to a worker thread. The corresponding direct-call export is `pdfToPngSync`.
 
 ### `splitPdfPages(text)`
 
