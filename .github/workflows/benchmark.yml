@@ -1,0 +1,227 @@
+name: Rendering Benchmark
+
+# Renders every fixture PDF page with 4 renderers (pdftocairo, pdfconvert-wasm
+# in Node.js, pdfconvert-wasm in Chromium, pdfjs-dist in Chromium) and uploads
+# a markdown table as an artifact — one row per PDF page.
+#
+# Granular caching: each renderer's PNG output + timings are cached under
+# their own key. A step is skipped when its cache entry is fresh, so e.g.
+# fixing only the browser benchmark does not re-render the pdftocairo
+# baseline or the Node.js renderer. Any change to index.js/src/ invalidates
+# the WASM caches, while the (slow) pdftocairo baseline stays cached.
+#
+# Top-level short-circuit: the final benchmark report itself is cached under
+# a key derived from the only inputs that can influence it
+# (.github/workflows/benchmark.yml, src/poppler_lib.cpp, Dockerfile, index.js,
+# plus fixtures and package-lock). If none of those changed, the whole job
+# short-circuits after restoring the cached report, so README, LICENSE,
+# .gitignore and other non-relevant changes do not trigger re-benchmarking.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  bench:
+    name: Benchmark table (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    env:
+      BENCH_OUT_DIR: ${{ github.workspace }}/test/benchmark/out
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # ---------------------------------------------------------------
+      # Top-level cache of the final benchmark report. When it hits,
+      # every benchmark step below is skipped (BENCH_SKIP=1).
+      # NOTE: no restore-keys — only an exact key match counts as a hit.
+      # ---------------------------------------------------------------
+      - name: Cache benchmark report
+        id: cache-report
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            test/benchmark/out/report.md
+            test/benchmark/out/report.json
+          key: bench-${{ matrix.os }}-report-r150-${{ hashFiles('.github/workflows/benchmark.yml', 'src/poppler_lib.cpp', 'Dockerfile', 'index.js') }}-${{ hashFiles('test/fixtures/**/*.pdf') }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Set skip flag
+        if: steps.cache-report.outputs.cache-hit == 'true'
+        run: echo "BENCH_SKIP=1" >> "$GITHUB_ENV"
+        shell: bash
+
+      - name: Skip notice (report unchanged)
+        if: env.BENCH_SKIP == '1'
+        run: echo "No changes to benchmark inputs (benchmark.yml, src/poppler_lib.cpp, Dockerfile, index.js, fixtures) — skipping benchmark, restoring cached report."
+        shell: bash
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      # ---------------------------------------------------------------
+      # Granular caches, one per renderer.
+      # ---------------------------------------------------------------
+
+      # 1. pdftocairo baseline (native Poppler CLI renders — slow, rarely
+      #    needs re-running; only invalidated by fixture or DPI changes).
+      - name: Cache pdftocairo baseline output
+        id: cache-pdftocairo
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            test/benchmark/out/pdftocairo
+            test/benchmark/out/timings-pdftocairo.json
+          key: bench-${{ matrix.os }}-pdftocairo-r150-${{ hashFiles('test/fixtures/**/*.pdf') }}
+
+      # 2. Node.js pdfconvert-wasm output (invalidated whenever the WASM
+      #    binary or the JS wrapper changes — i.e. on every bug fix).
+      - name: Cache nodejs-pdfconvert-wasm output
+        id: cache-node-wasm
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            test/benchmark/out/nodejs-pdfconvert-wasm
+            test/benchmark/out/timings-node.json
+          key: bench-${{ matrix.os }}-nodewasm-r150-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
+          restore-keys: |
+            bench-${{ matrix.os }}-nodewasm-r150-
+
+      # 3. Browser pdfconvert-wasm output (same invalidation as Node but a
+      #    separate entry, so browser-only fixes skip the Node re-render).
+      - name: Cache playwright-pdfconvert-wasm output
+        id: cache-browser-wasm
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            test/benchmark/out/playwright-pdfconvert-wasm
+            test/benchmark/out/timings-browser.json
+          key: bench-${{ matrix.os }}-browserwasm-r150-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
+          restore-keys: |
+            bench-${{ matrix.os }}-browserwasm-r150-
+
+      # 4. pdfjs-dist output (only invalidated by fixtures or the pdfjs
+      #    version — independent from our library changes).
+      - name: Cache playwright-pdfjs-dist output
+        id: cache-browser-pdfjs
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            test/benchmark/out/playwright-pdfjs-dist
+          key: bench-${{ matrix.os }}-pdfjs-r150-${{ hashFiles('test/fixtures/**/*.pdf') }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install npm dependencies
+        if: env.BENCH_SKIP != '1'
+        run: npm ci
+
+      # Playwright browsers are cached separately from npm modules because
+      # they live outside the repo and are large.
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            ~/AppData/Local/ms-playwright
+          key: bench-${{ matrix.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install Playwright Chromium
+        if: env.BENCH_SKIP != '1'
+        run: npx playwright install chromium
+
+      # Poppler CLI provides the pdftocairo baseline renderer.
+      - name: Install Poppler CLI (Linux)
+        if: env.BENCH_SKIP != '1' && runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
+      - name: Install Poppler CLI (Windows)
+        if: env.BENCH_SKIP != '1' && runner.os == 'Windows'
+        shell: bash
+        run: |
+          curl -sL -o poppler.zip https://github.com/oschwartz10612/poppler-windows/releases/download/v24.08.0-0/Release-24.08.0-0.zip
+          unzip -q -o poppler.zip -d poppler-home
+          echo "$(pwd)/poppler-home/poppler-24.08.0/Library/bin" >> "$GITHUB_PATH"
+
+      # Build WASM binaries if not present (needed by the Node/browser
+      # pdfconvert-wasm renderers).
+      - name: Cache WASM build artifacts
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            poppler.wasm
+            poppler.js
+          key: ${{ runner.os }}-poppler-wasm-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
+          restore-keys: |
+            ${{ runner.os }}-poppler-wasm-
+
+      - name: Build WASM library if needed
+        if: env.BENCH_SKIP != '1'
+        run: |
+          if [ ! -f poppler.wasm ] || [ ! -f poppler.js ]; then
+            echo "poppler.wasm / poppler.js not found, running build..."
+            npm run build:docker
+          else
+            echo "poppler.wasm and poppler.js found."
+          fi
+        shell: bash
+
+      # ---------------------------------------------------------------
+      # Renderers — each skipped when its cache entry was a hit.
+      # ---------------------------------------------------------------
+
+      - name: Benchmark pdftocairo + Node.js renderers
+        if: env.BENCH_SKIP != '1'
+        run: npm run bench:node
+        shell: bash
+        env:
+          SKIP_PDFTOCAIRO: ${{ steps.cache-pdftocairo.outputs.cache-hit == 'true' && '1' || '0' }}
+          SKIP_NODE_WASM: ${{ steps.cache-node-wasm.outputs.cache-hit == 'true' && '1' || '0' }}
+
+      - name: Benchmark Playwright renderers
+        if: env.BENCH_SKIP != '1'
+        run: npm run bench:browser
+        shell: bash
+        env:
+          SKIP_BROWSER_WASM: ${{ steps.cache-browser-wasm.outputs.cache-hit == 'true' && '1' || '0' }}
+          SKIP_BROWSER_PDFJS: ${{ steps.cache-browser-pdfjs.outputs.cache-hit == 'true' && '1' || '0' }}
+
+      - name: Build benchmark report table
+        if: env.BENCH_SKIP != '1'
+        run: npm run bench:report
+        shell: bash
+
+      - name: Verify benchmark report exists
+        if: always()
+        run: |
+          test -f test/benchmark/out/report.md || { echo "report.md missing"; exit 1; }
+          test -f test/benchmark/out/report.json || { echo "report.json missing"; exit 1; }
+        shell: bash
+
+      - name: Upload benchmark report
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-report-${{ matrix.os }}
+          path: |
+            test/benchmark/out/report.md
+            test/benchmark/out/report.json
+          if-no-files-found: error
+
+      - name: Upload benchmark images
+        if: env.BENCH_SKIP != '1'
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-images-${{ matrix.os }}
+          path: test/benchmark/out/
+          if-no-files-found: error

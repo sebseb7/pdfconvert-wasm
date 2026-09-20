@@ -15,3 +15,6 @@ poppler-*
 
 # Test diff outputs
 test/diff/
+
+# Benchmark outputs (regenerated locally or in CI, cached on GitHub runners)
+test/benchmark/out/

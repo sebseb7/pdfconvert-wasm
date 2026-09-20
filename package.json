@@ -24,7 +24,11 @@
     "test:compare:text": "node test/scripts/compare-text.js",
     "test:generate": "npm run test:generate:images && npm run test:generate:text",
     "test:generate:images": "node test/scripts/generate-images.js",
-    "test:generate:text": "node test/scripts/generate-text.js"
+    "test:generate:text": "node test/scripts/generate-text.js",
+    "bench:node": "node test/benchmark/bench-node.js",
+    "bench:browser": "node test/benchmark/bench-browser.js",
+    "bench:report": "node test/benchmark/report.js",
+    "bench": "npm run bench:node && npm run bench:browser && npm run bench:report"
   },
   "repository": {
     "type": "git",
@@ -47,7 +51,9 @@
   "license": "GPLv3",
   "devDependencies": {
     "diff": "^9.0.0",
+    "pdfjs-dist": "^4.0.0",
     "pixelmatch": "^7.2.0",
+    "playwright": "^1.40.0",
     "pngjs": "^7.0.0"
   }
 }

@@ -87,30 +87,34 @@ static bool image_to_png_bytes(const poppler::image &img, double dpi, std::vecto
 extern "C" {
 
 EMSCRIPTEN_KEEPALIVE
-int poppler_get_page_count(const uint8_t *pdf_bytes, int pdf_len) {
-    if (!pdf_bytes || pdf_len <= 0) return 0;
-    auto doc = std::unique_ptr<poppler::document>(
-        poppler::document::load_from_raw_data(reinterpret_cast<const char*>(pdf_bytes), pdf_len)
+poppler::document* poppler_open_document(const uint8_t *pdf_bytes, int pdf_len) {
+    if (!pdf_bytes || pdf_len <= 0) return nullptr;
+    return poppler::document::load_from_raw_data(
+        reinterpret_cast<const char*>(pdf_bytes), pdf_len
     );
+}
+
+EMSCRIPTEN_KEEPALIVE
+void poppler_close_document(poppler::document *doc) {
+    delete doc;
+}
+
+EMSCRIPTEN_KEEPALIVE
+int poppler_get_page_count(const poppler::document *doc) {
     return doc ? doc->pages() : 0;
 }
 
 EMSCRIPTEN_KEEPALIVE
 char* poppler_extract_text(
-    const uint8_t *pdf_bytes,
-    int pdf_len,
+    poppler::document *doc,
     int physical_layout,
     int first_page,
     int last_page,
     int no_page_breaks
 ) {
-    if (!pdf_bytes || pdf_len <= 0) return nullptr;
-    auto doc = std::unique_ptr<poppler::document>(
-        poppler::document::load_from_raw_data(reinterpret_cast<const char*>(pdf_bytes), pdf_len)
-    );
     if (!doc) return nullptr;
 
-    int total_pages = doc->pages();
+    const int total_pages = doc->pages();
     int start_p = std::max(1, first_page);
     int end_p = (last_page < 0 || last_page > total_pages) ? total_pages : last_page;
 
@@ -139,8 +143,7 @@ char* poppler_extract_text(
 
 EMSCRIPTEN_KEEPALIVE
 uint8_t* poppler_render_page_png(
-    const uint8_t *pdf_bytes,
-    int pdf_len,
+    poppler::document *doc,
     int page_number,
     double dpi,
     int scale_to,
@@ -148,13 +151,10 @@ uint8_t* poppler_render_page_png(
     int scale_to_y,
     int *out_png_len
 ) {
-    if (!pdf_bytes || pdf_len <= 0 || !out_png_len) return nullptr;
+    if (!doc || !out_png_len) return nullptr;
     *out_png_len = 0;
 
-    auto doc = std::unique_ptr<poppler::document>(
-        poppler::document::load_from_raw_data(reinterpret_cast<const char*>(pdf_bytes), pdf_len)
-    );
-    if (!doc || page_number < 1 || page_number > doc->pages()) return nullptr;
+    if (page_number < 1 || page_number > doc->pages()) return nullptr;
 
     auto page = std::unique_ptr<poppler::page>(doc->create_page(page_number - 1));
     if (!page) return nullptr;

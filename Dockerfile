@@ -54,7 +54,7 @@ RUN em++ /src/wrapper/poppler_lib.cpp -o /src/poppler-26.09.0/build/poppler.js \
       /src/poppler-26.09.0/build/cpp/libpoppler-cpp.a /src/poppler-26.09.0/build/libpoppler.a \
       -s USE_ZLIB=1 -s USE_LIBPNG=1 -s USE_FREETYPE=1 -s USE_LIBJPEG=1 \
       -s ALLOW_MEMORY_GROWTH=1 -s MODULARIZE=1 -s EXPORT_ES6=1 \
-      -s EXPORTED_FUNCTIONS="['_malloc','_free','_poppler_get_page_count','_poppler_extract_text','_poppler_render_page_png','_poppler_free']" \
+    -s EXPORTED_FUNCTIONS="['_malloc','_free','_poppler_open_document','_poppler_close_document','_poppler_get_page_count','_poppler_extract_text','_poppler_render_page_png','_poppler_free']" \
       -s EXPORTED_RUNTIME_METHODS="['UTF8ToString','HEAPU8','HEAP32']" \
       -s EXPORT_NAME=createPopplerModule \
       --embed-file /fonts@/usr/share/ghostscript/fonts \

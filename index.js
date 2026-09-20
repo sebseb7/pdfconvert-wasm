@@ -40,10 +40,13 @@ export async function pdfToText(pdfSource, options = {}) {
   mod.HEAPU8.set(bytes, ptr);
 
   let text = '';
+  let doc = 0;
   try {
+    doc = mod._poppler_open_document(ptr, bytes.length);
+    if (!doc) return text;
+
     const textPtr = mod._poppler_extract_text(
-      ptr,
-      bytes.length,
+      doc,
       layout ? 1 : 0,
       firstPage != null ? firstPage : 1,
       lastPage != null ? lastPage : -1,
@@ -54,6 +57,7 @@ export async function pdfToText(pdfSource, options = {}) {
       mod._poppler_free(textPtr);
     }
   } finally {
+    if (doc) mod._poppler_close_document(doc);
     mod._free(ptr);
   }
 
@@ -96,17 +100,20 @@ export async function pdfToPng(pdfSource, options = {}) {
 
   const results = [];
   const lenPtr = mod._malloc(4);
+  let doc = 0;
 
   try {
-    const totalPages = mod._poppler_get_page_count(ptr, bytes.length);
+    doc = mod._poppler_open_document(ptr, bytes.length);
+    if (!doc) return results;
+
+    const totalPages = mod._poppler_get_page_count(doc);
     const startP = Math.max(1, firstPage || 1);
     let endP = (lastPage != null && lastPage <= totalPages) ? lastPage : totalPages;
     if (singleFile) endP = startP;
 
     for (let p = startP; p <= endP; p++) {
       const pngPtr = mod._poppler_render_page_png(
-        ptr,
-        bytes.length,
+        doc,
         p,
         targetDpi,
         scaleTo != null ? scaleTo : -1,
@@ -145,6 +152,7 @@ export async function pdfToPng(pdfSource, options = {}) {
       }
     }
   } finally {
+    if (doc) mod._poppler_close_document(doc);
     mod._free(lenPtr);
     mod._free(ptr);
   }
