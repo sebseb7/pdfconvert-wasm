@@ -21,11 +21,6 @@ jobs:
           node-version: 22
           cache: 'npm'
 
-      - name: Install system dependencies (Poppler CLI)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y poppler-utils
-
       - name: Install npm dependencies
         run: npm ci
 
@@ -40,6 +35,7 @@ jobs:
             ${{ runner.os }}-poppler-wasm-
 
       - name: Cache test reference files
+        id: reference-cache
         uses: actions/cache@v6.1.0
         with:
           path: |
@@ -48,6 +44,18 @@ jobs:
           key: ${{ runner.os }}-test-reference-${{ hashFiles('test/fixtures/**/*.pdf') }}
           restore-keys: |
             ${{ runner.os }}-test-reference-
+
+      # Poppler CLI (pdftotext/pdftoppm) is only needed to (re)generate the
+      # reference files, not to run the regression tests themselves.
+      - name: Install system dependencies (Poppler CLI)
+        if: steps.reference-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
+      - name: Generate test reference files
+        if: steps.reference-cache.outputs.cache-hit != 'true'
+        run: npm run test:generate
 
       - name: Build WASM library if needed
         run: |
