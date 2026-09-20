@@ -28,6 +28,7 @@
     "bench:node": "node test/benchmark/bench-node.js",
     "bench:browser": "node test/benchmark/bench-browser.js",
     "bench:report": "node test/benchmark/report.js",
+    "bench:compare-os": "node test/benchmark/compare-os.js",
     "bench": "npm run bench:node && npm run bench:browser && npm run bench:report"
   },
   "repository": {

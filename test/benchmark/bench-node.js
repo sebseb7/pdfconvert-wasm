@@ -16,6 +16,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { performance } from 'node:perf_hooks';
 import { createRequire } from 'node:module';
 import { pdfToPng } from '../../index.js';
@@ -102,9 +103,13 @@ if (process.env.SKIP_NODE_PDFJS === '1') {
 } else {
   console.log('=== Benchmark: pdfjs-dist (Node.js) ===');
   const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
-  pdfjs.GlobalWorkerOptions.workerSrc = require.resolve(
-    'pdfjs-dist/legacy/build/pdf.worker.mjs'
-  );
+  // workerSrc must be a URL, not a plain path: on Windows require.resolve
+  // returns "D:\...\pdf.worker.mjs" and the ESM loader rejects the "d:"
+  // protocol ("Only URLs with a scheme in: file, data, and node...").
+  // pathToFileURL converts it to a proper file:///D:/... URL.
+  pdfjs.GlobalWorkerOptions.workerSrc = pathToFileURL(
+    require.resolve('pdfjs-dist/legacy/build/pdf.worker.mjs')
+  ).href;
   const { createCanvas } = require('@napi-rs/canvas');
 
   for (const pdfPath of fixturePdfs()) {
