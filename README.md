@@ -1,5 +1,8 @@
 # pdfconvert-wasm
 
+[![CI](https://github.com/sebseb7/pdfconvert-wasm/actions/workflows/ci.yml/badge.svg)](https://github.com/sebseb7/pdfconvert-wasm/actions/workflows/ci.yml)
+![NPM Version](https://img.shields.io/npm/v/pdfconvert-wasm)
+
 WebAssembly PDF to text and PDF to PNG converter based on Poppler C++ (`poppler-cpp`).
 
 - **exports**: **`pdfToText`** and **`pdfToPng`**.
