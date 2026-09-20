@@ -22,6 +22,8 @@ COPY src /src/wrapper
 RUN cd poppler-26.09.0 && mkdir -p build && cd build && \
     emcmake cmake .. \
       -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_C_FLAGS_RELEASE="-O3 -flto -msimd128" \
+      -DCMAKE_CXX_FLAGS_RELEASE="-O3 -flto -msimd128" \
       -DFONT_CONFIGURATION=generic \
       -DENABLE_LIBOPENJPEG=OFF \
       -DENABLE_LIBJPEG=ON \
@@ -58,7 +60,7 @@ RUN em++ /src/wrapper/poppler_lib.cpp -o /src/poppler-26.09.0/build/poppler.js \
       -s EXPORTED_RUNTIME_METHODS="['UTF8ToString','HEAPU8','HEAP32']" \
       -s EXPORT_NAME=createPopplerModule \
       --embed-file /fonts@/usr/share/ghostscript/fonts \
-      -O2
+      -O3 -flto -msimd128
 
 # Output stage
 FROM scratch

@@ -11,21 +11,25 @@
 #include <algorithm>
 #include <cstring>
 #include <cmath>
+#include <climits>
 #include <stdio.h>
 #include <stdlib.h>
 
-static bool image_to_png_bytes(const poppler::image &img, double dpi, std::vector<uint8_t> &out) {
-    if (!img.is_valid()) return false;
+// Returns the malloc-allocated open_memstream buffer. The caller owns it.
+static uint8_t* image_to_png_bytes(const poppler::image &img, double dpi, int *out_len) {
+    if (!img.is_valid() || !out_len) return nullptr;
+    *out_len = 0;
+
     char *buf = nullptr;
     size_t size = 0;
     FILE *f = open_memstream(&buf, &size);
-    if (!f) return false;
+    if (!f) return nullptr;
 
     PNGWriter writer(PNGWriter::RGB);
     if (!writer.init(f, img.width(), img.height(), dpi, dpi)) {
         fclose(f);
         if (buf) free(buf);
-        return false;
+        return nullptr;
     }
 
     int w = img.width();
@@ -39,7 +43,7 @@ static bool image_to_png_bytes(const poppler::image &img, double dpi, std::vecto
             if (!writer.writeRow(&rowptr)) {
                 fclose(f);
                 if (buf) free(buf);
-                return false;
+                return nullptr;
             }
         }
     } else if (img.format() == poppler::image::format_argb32) {
@@ -47,17 +51,18 @@ static bool image_to_png_bytes(const poppler::image &img, double dpi, std::vecto
         const char *hptr = raw;
         for (int y = 0; y < h; ++y) {
             unsigned char *rowptr = row.data();
-            for (int x = 0; x < w; ++x, rowptr += 3) {
-                const unsigned int pixel = *reinterpret_cast<const unsigned int *>(hptr + x * 4);
+            const unsigned int *pixel_ptr = reinterpret_cast<const unsigned int *>(hptr);
+            for (int x = 0; x < w; ++x, rowptr += 3, ++pixel_ptr) {
+                const unsigned int pixel = *pixel_ptr;
                 rowptr[0] = (pixel >> 16) & 0xff;
                 rowptr[1] = (pixel >> 8) & 0xff;
                 rowptr[2] = pixel & 0xff;
             }
-            rowptr = row.data();
-            if (!writer.writeRow(&rowptr)) {
+            unsigned char *writer_row = row.data();
+            if (!writer.writeRow(&writer_row)) {
                 fclose(f);
                 if (buf) free(buf);
-                return false;
+                return nullptr;
             }
             hptr += bpr;
         }
@@ -67,7 +72,7 @@ static bool image_to_png_bytes(const poppler::image &img, double dpi, std::vecto
             if (!writer.writeRow(&rowptr)) {
                 fclose(f);
                 if (buf) free(buf);
-                return false;
+                return nullptr;
             }
         }
     }
@@ -75,13 +80,12 @@ static bool image_to_png_bytes(const poppler::image &img, double dpi, std::vecto
     writer.close();
     fclose(f);
 
-    if (buf && size > 0) {
-        out.assign(reinterpret_cast<uint8_t*>(buf), reinterpret_cast<uint8_t*>(buf) + size);
-        free(buf);
-        return true;
+    if (buf && size > 0 && size <= static_cast<size_t>(INT_MAX)) {
+        *out_len = static_cast<int>(size);
+        return reinterpret_cast<uint8_t*>(buf);
     }
     if (buf) free(buf);
-    return false;
+    return nullptr;
 }
 
 extern "C" {
@@ -185,17 +189,7 @@ uint8_t* poppler_render_page_png(
     poppler::image img = pr.render_page(page.get(), rx, ry);
     if (!img.is_valid()) return nullptr;
 
-    std::vector<uint8_t> png_bytes;
-    if (!image_to_png_bytes(img, rx, png_bytes) || png_bytes.empty()) {
-        return nullptr;
-    }
-
-    uint8_t *res = static_cast<uint8_t*>(malloc(png_bytes.size()));
-    if (res) {
-        memcpy(res, png_bytes.data(), png_bytes.size());
-        *out_png_len = static_cast<int>(png_bytes.size());
-    }
-    return res;
+    return image_to_png_bytes(img, rx, out_png_len);
 }
 
 EMSCRIPTEN_KEEPALIVE
