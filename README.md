@@ -5,6 +5,18 @@
 
 WebAssembly PDF to text and PDF to PNG converter based on Poppler C++ (`poppler-cpp`).
 
+## Why pdfconvert-wasm?
+
+The purpose of this library is **pixel-identical PDF to image rendering** on any platform. Because Poppler is compiled to WebAssembly and rendering happens entirely in-process, you get the exact same output everywhere:
+
+- **Browsers** (any OS)
+- **Node.js** backends
+- **Any WASM runtime** backend (WASI, Wasmtime, Wasmer, V8, etc.)
+
+No native dependency headaches: unlike `canvas` (node-canvas), which is notoriously painful to install on Windows, there are no system libraries to build or install — just pure JavaScript + a precompiled `.wasm` binary.
+
+**Fonts are bundled**: all fallback font metrics ship with the package, so font rendering and antialiasing are pixel-perfect and fully independent of which fonts are installed on the host platform.
+
 - **exports**: **`pdfToText`** and **`pdfToPng`**.
 - **Universal**: Works out of the box in **Node.js**, **browsers**, and bundlers (**Vite**, **Webpack**, **Rollup**).
 
