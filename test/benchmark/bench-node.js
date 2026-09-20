@@ -1,20 +1,23 @@
 /**
- * Benchmark: render all fixture PDFs to PNG with pdftocairo (baseline)
- * and pdfconvert-wasm in Node.js, one PNG per page.
+ * Benchmark: render all fixture PDFs to PNG with pdftocairo (baseline),
+ * pdfconvert-wasm in Node.js and pdfjs-dist in Node.js, one PNG per page.
  *
  * Outputs (under test/benchmark/out/):
  *   pdftocairo/<pdf>-p<page>.png + timings-pdftocairo.json
  *   nodejs-pdfconvert-wasm/<pdf>-p<page>.png + timings-node.json
+ *   nodejs-pdfjs-dist/<pdf>-p<page>.png + timings-node.json
  *
  * Individual renderers can be skipped (when their outputs were restored
  * from the GitHub actions cache) via env:
  *   SKIP_PDFTOCAIRO=1
  *   SKIP_NODE_WASM=1
+ *   SKIP_NODE_PDFJS=1
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { performance } from 'node:perf_hooks';
+import { createRequire } from 'node:module';
 import { pdfToPng } from '../../index.js';
 import {
   fixturePdfs,
@@ -28,9 +31,11 @@ import {
 
 const DPI = 150;
 
+const require = createRequire(import.meta.url);
+
 ensureOutDirs();
 
-const timings = { pdftocairo: {}, nodeWasm: {} };
+const timings = { pdftocairo: {}, nodeWasm: {}, nodePdfjs: {} };
 
 // Merge in previously generated timings so skipped renderers keep their data.
 for (const f of ['timings-pdftocairo.json', 'timings-node.json']) {
@@ -88,6 +93,51 @@ if (process.env.SKIP_NODE_WASM === '1') {
   fs.writeFileSync(
     path.join(outDir, 'timings-node.json'),
     JSON.stringify({ nodeWasm: timings.nodeWasm }, null, 2)
+  );
+}
+
+// 3. pdfjs-dist in Node.js (canvas-based renderer)
+if (process.env.SKIP_NODE_PDFJS === '1') {
+  console.log('=== Skipping nodejs-pdfjs-dist (SKIP_NODE_PDFJS=1, restored from cache) ===');
+} else {
+  console.log('=== Benchmark: pdfjs-dist (Node.js) ===');
+  const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  pdfjs.GlobalWorkerOptions.workerSrc = require.resolve(
+    'pdfjs-dist/legacy/build/pdf.worker.mjs'
+  );
+  const { createCanvas } = require('@napi-rs/canvas');
+
+  for (const pdfPath of fixturePdfs()) {
+    const pdfBase = path.basename(pdfPath, '.pdf');
+    const pdfBytes = new Uint8Array(fs.readFileSync(pdfPath));
+    process.stdout.write(`  nodejs-pdfjs-dist ${pdfBase} ... `);
+
+    const doc = await pdfjs.getDocument({ data: pdfBytes }).promise;
+    const destDir = rendererDir(RENDERERS.nodePdfjs);
+    const scale = DPI / 72;
+
+    for (let p = 1; p <= doc.numPages; p++) {
+      const pdfPage = await doc.getPage(p);
+      const viewport = pdfPage.getViewport({ scale });
+
+      const canvas = createCanvas(Math.floor(viewport.width), Math.floor(viewport.height));
+      const ctx = canvas.getContext('2d');
+
+      const t0 = performance.now();
+      await pdfPage.render({ canvasContext: ctx, viewport, canvas }).promise;
+      const ms = performance.now() - t0;
+
+      fs.writeFileSync(
+        path.join(destDir, pageImageName(pdfBase, p)),
+        canvas.toBuffer('image/png')
+      );
+      timings.nodePdfjs[`${pdfBase}-p${p}`] = Math.round(ms * 100) / 100;
+    }
+    console.log(`${doc.numPages} pages`);
+  }
+  fs.writeFileSync(
+    path.join(outDir, 'timings-node.json'),
+    JSON.stringify({ nodeWasm: timings.nodeWasm, nodePdfjs: timings.nodePdfjs }, null, 2)
   );
 }
 console.log(`\nNode benchmark complete.`);

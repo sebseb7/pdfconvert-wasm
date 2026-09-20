@@ -4,6 +4,7 @@
  * The benchmark compares, per PDF page:
  *   - pdftocairo (native Poppler CLI)
  *   - pdfconvert-wasm in Node.js
+ *   - pdfjs-dist in Node.js
  *   - pdfconvert-wasm in a browser (Playwright + Chromium)
  *   - pdfjs-dist in a browser (Playwright + Chromium)
  *
@@ -31,6 +32,7 @@ export const outDir = process.env.BENCH_OUT_DIR || path.join(benchDir, 'out');
 export const RENDERERS = {
   pdftocairo: 'pdftocairo',
   nodeWasm: 'nodejs-pdfconvert-wasm',
+  nodePdfjs: 'nodejs-pdfjs-dist',
   browserWasm: 'playwright-pdfconvert-wasm',
   browserPdfjs: 'playwright-pdfjs-dist',
 };

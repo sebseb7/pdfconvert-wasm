@@ -5,6 +5,8 @@
  *   - pdftocairo ms
  *   - nodejs-pdfconvert-wasm ms
  *   - nodejs-pdfconvert-wasm pixeldiffrate
+ *   - nodejs-pdfjs-dist ms
+ *   - nodejs-pdfjs-dist pixeldiffrate
  *   - playwright-pdfconvert-wasm ms
  *   - playwright-pdfconvert-wasm pixeldiffrate
  *   - playwright-pdfjs-dist ms
@@ -48,6 +50,8 @@ const header = [
   'pdftocairo ms',
   'nodejs-pdfconvert-wasm ms',
   'nodejs-pdfconvert-wasm pixeldiffrate',
+  'nodejs-pdfjs-dist ms',
+  'nodejs-pdfjs-dist pixeldiffrate',
   'playwright-pdfconvert-wasm ms',
   'playwright-pdfconvert-wasm pixeldiffrate',
   'playwright-pdfjs-dist ms',
@@ -67,6 +71,7 @@ for (const pdfPath of fixturePdfs()) {
   for (const page of pages) {
     const key = `${pdfBase}-p${page}`;
     const nodePng = path.join(rendererDir(RENDERERS.nodeWasm), pageImageName(pdfBase, page));
+    const njPng = path.join(rendererDir(RENDERERS.nodePdfjs), pageImageName(pdfBase, page));
     const bwPng = path.join(rendererDir(RENDERERS.browserWasm), pageImageName(pdfBase, page));
     const bjPng = path.join(rendererDir(RENDERERS.browserPdfjs), pageImageName(pdfBase, page));
 
@@ -76,6 +81,8 @@ for (const pdfPath of fixturePdfs()) {
       pdftocairoMs: nodeTimings.pdftocairo?.[key],
       nodeWasmMs: nodeTimings.nodeWasm?.[key],
       nodeWasmDiff: diffAgainstBaseline(pdfBase, page, nodePng),
+      nodePdfjsMs: nodeTimings.nodePdfjs?.[key],
+      nodePdfjsDiff: diffAgainstBaseline(pdfBase, page, njPng),
       browserWasmMs: browserTimings.browserWasm?.[key],
       browserWasmDiff: diffAgainstBaseline(pdfBase, page, bwPng),
       browserPdfjsMs: browserTimings.browserPdfjs?.[key],
@@ -98,9 +105,11 @@ for (const r of rows) {
   mdLines.push(
     `| ${r.pdf} p.${r.page} | ${fmtMs(r.pdftocairoMs)} | ${fmtMs(r.nodeWasmMs)} | ${fmtDiff(
       r.nodeWasmDiff
-    )} | ${fmtMs(r.browserWasmMs)} | ${fmtDiff(r.browserWasmDiff)} | ${fmtMs(
-      r.browserPdfjsMs
-    )} | ${fmtDiff(r.browserPdfjsDiff)} |`
+    )} | ${fmtMs(r.nodePdfjsMs)} | ${fmtDiff(r.nodePdfjsDiff)} | ${fmtMs(
+      r.browserWasmMs
+    )} | ${fmtDiff(r.browserWasmDiff)} | ${fmtMs(r.browserPdfjsMs)} | ${fmtDiff(
+      r.browserPdfjsDiff
+    )} |`
   );
 }
 

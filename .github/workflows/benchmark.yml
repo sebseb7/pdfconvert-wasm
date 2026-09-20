@@ -155,6 +155,15 @@ jobs:
           restore-keys: |
             bench-${{ matrix.os }}-nodewasm-r150-
 
+      # 2b. Node.js pdfjs-dist output (only invalidated by fixtures or the
+      #     pdfjs version — independent from our library changes).
+      - name: Cache nodejs-pdfjs-dist output
+        id: cache-node-pdfjs
+        uses: actions/cache@v6.1.0
+        with:
+          path: test/benchmark/out/nodejs-pdfjs-dist
+          key: bench-${{ matrix.os }}-nodepdfjs-r150-${{ hashFiles('test/fixtures/**/*.pdf') }}-${{ hashFiles('**/package-lock.json') }}
+
       # 3. Browser pdfconvert-wasm output (same invalidation as Node but a
       #    separate entry, so browser-only fixes skip the Node re-render).
       - name: Cache playwright-pdfconvert-wasm output
@@ -245,6 +254,7 @@ jobs:
         env:
           SKIP_PDFTOCAIRO: ${{ steps.cache-pdftocairo.outputs.cache-hit == 'true' && '1' || '0' }}
           SKIP_NODE_WASM: ${{ steps.cache-node-wasm.outputs.cache-hit == 'true' && '1' || '0' }}
+          SKIP_NODE_PDFJS: ${{ steps.cache-node-pdfjs.outputs.cache-hit == 'true' && '1' || '0' }}
 
       - name: Benchmark Playwright renderers
         if: env.BENCH_SKIP != '1'
