@@ -5,7 +5,6 @@
 #include "goo/PNGWriter.h"
 
 #include <emscripten.h>
-#include <vector>
 #include <string>
 #include <memory>
 #include <algorithm>
@@ -32,48 +31,22 @@ static uint8_t* image_to_png_bytes(const poppler::image &img, double dpi, int *o
         return nullptr;
     }
 
-    int w = img.width();
     int h = img.height();
     int bpr = img.bytes_per_row();
     const char *raw = img.const_data();
 
-    if (img.format() == poppler::image::format_rgb24) {
-        for (int y = 0; y < h; ++y) {
-            unsigned char *rowptr = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(raw + y * bpr));
-            if (!writer.writeRow(&rowptr)) {
-                fclose(f);
-                if (buf) free(buf);
-                return nullptr;
-            }
-        }
-    } else if (img.format() == poppler::image::format_argb32) {
-        std::vector<unsigned char> row(3 * w);
-        const char *hptr = raw;
-        for (int y = 0; y < h; ++y) {
-            unsigned char *rowptr = row.data();
-            const unsigned int *pixel_ptr = reinterpret_cast<const unsigned int *>(hptr);
-            for (int x = 0; x < w; ++x, rowptr += 3, ++pixel_ptr) {
-                const unsigned int pixel = *pixel_ptr;
-                rowptr[0] = (pixel >> 16) & 0xff;
-                rowptr[1] = (pixel >> 8) & 0xff;
-                rowptr[2] = pixel & 0xff;
-            }
-            unsigned char *writer_row = row.data();
-            if (!writer.writeRow(&writer_row)) {
-                fclose(f);
-                if (buf) free(buf);
-                return nullptr;
-            }
-            hptr += bpr;
-        }
-    } else {
-        for (int y = 0; y < h; ++y) {
-            unsigned char *rowptr = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(raw + y * bpr));
-            if (!writer.writeRow(&rowptr)) {
-                fclose(f);
-                if (buf) free(buf);
-                return nullptr;
-            }
+    if (img.format() != poppler::image::format_rgb24) {
+        fclose(f);
+        if (buf) free(buf);
+        return nullptr;
+    }
+
+    for (int y = 0; y < h; ++y) {
+        unsigned char *rowptr = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(raw + y * bpr));
+        if (!writer.writeRow(&rowptr)) {
+            fclose(f);
+            if (buf) free(buf);
+            return nullptr;
         }
     }
 
@@ -125,6 +98,9 @@ char* poppler_extract_text(
     poppler::page::text_layout_enum layout = physical_layout ? poppler::page::physical_layout : poppler::page::raw_order_layout;
 
     std::string out;
+    if (start_p <= end_p) {
+        out.reserve(static_cast<size_t>(end_p - start_p + 1) * 3000);
+    }
     for (int p = start_p; p <= end_p; ++p) {
         auto page = std::unique_ptr<poppler::page>(doc->create_page(p - 1));
         if (page) {
@@ -185,6 +161,7 @@ uint8_t* poppler_render_page_png(
     poppler::page_renderer pr;
     pr.set_render_hint(poppler::page_renderer::antialiasing, true);
     pr.set_render_hint(poppler::page_renderer::text_antialiasing, true);
+    pr.set_image_format(poppler::image::format_rgb24);
 
     poppler::image img = pr.render_page(page.get(), rx, ry);
     if (!img.is_valid()) return nullptr;

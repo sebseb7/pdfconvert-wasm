@@ -19,8 +19,19 @@ In Node.js, conversions run in a reusable worker thread, keeping the main event 
 
 **Fonts are bundled**: all fallback font metrics ship with the package, so font rendering and antialiasing are pixel-perfect and fully independent of which fonts are installed on the host platform.
 
+### Rendering consistency and performance
+
+Cross-platform comparisons show the following trade-offs:
+
+| Renderer | Rendering consistency |
+| --- | --- |
+| `pdftocairo` | Not pixel-perfect between Windows and Linux |
+| `pdfjs-dist` | Not pixel-perfect between Node.js and Chrome, or between Chrome on Linux and Chrome on Windows |
+| `pdfconvert-wasm` | Pixel-perfect across supported browsers and operating systems |
+
+`pdfjs-dist` is the fastest renderer by a significant margin. Choose `pdfconvert-wasm` when deterministic, pixel-identical output across browsers and operating systems is more important than maximum rendering speed.
+
 - **exports**: **`pdfToText`** and **`pdfToPng`**.
-- **Universal**: Works out of the box in **Node.js**, **browsers**, and bundlers (**Vite**, **Webpack**, **Rollup**).
 
 ---
 
