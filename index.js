@@ -1,5 +1,17 @@
 import createPopplerModule from './poppler.js';
 
+let popplerModulePromise;
+
+function getPopplerModule() {
+  if (!popplerModulePromise) {
+    popplerModulePromise = createPopplerModule().catch((error) => {
+      popplerModulePromise = undefined;
+      throw error;
+    });
+  }
+  return popplerModulePromise;
+}
+
 function toUint8Array(source) {
   if (source instanceof Uint8Array) return source;
   if (source instanceof ArrayBuffer) return new Uint8Array(source);
@@ -34,7 +46,7 @@ export async function pdfToText(pdfSource, options = {}) {
   } = options;
 
   const bytes = await resolvePdfBytes(pdfSource);
-  const mod = await createPopplerModule();
+  const mod = await getPopplerModule();
 
   const ptr = mod._malloc(bytes.length);
   mod.HEAPU8.set(bytes, ptr);
@@ -93,7 +105,7 @@ export async function pdfToPng(pdfSource, options = {}) {
   const targetDpi = dpi ?? resolution ?? 150;
 
   const bytes = await resolvePdfBytes(pdfSource);
-  const mod = await createPopplerModule();
+  const mod = await getPopplerModule();
 
   const ptr = mod._malloc(bytes.length);
   mod.HEAPU8.set(bytes, ptr);
