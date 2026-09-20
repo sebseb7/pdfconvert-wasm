@@ -38,11 +38,15 @@ const rowsA = JSON.parse(fs.readFileSync(reportAPath, 'utf8'));
 const rowsB = JSON.parse(fs.readFileSync(reportBPath, 'utf8'));
 
 // report.json rows: { pdf, page, nodeWasmDiff, nodePdfjsDiff, browserWasmDiff, browserPdfjsDiff, ... }
+// `enforce: true` columns are the pdfconvert-wasm renderers — their output
+// must be pixel-identical across OSes (same WASM binary), so a difference
+// fails the job. pdfjs-dist renders with platform-dependent font/canvas
+// stacks, so its differences are reported but never fail the run.
 const diffColumns = [
-  ['nodeWasmDiff', 'nodejs-pdfconvert-wasm'],
-  ['nodePdfjsDiff', 'nodejs-pdfjs-dist'],
-  ['browserWasmDiff', 'playwright-pdfconvert-wasm'],
-  ['browserPdfjsDiff', 'playwright-pdfjs-dist'],
+  ['nodeWasmDiff', 'nodejs-pdfconvert-wasm', true],
+  ['nodePdfjsDiff', 'nodejs-pdfjs-dist', false],
+  ['browserWasmDiff', 'playwright-pdfconvert-wasm', true],
+  ['browserPdfjsDiff', 'playwright-pdfjs-dist', false],
 ];
 
 const byKeyA = new Map(rowsA.map((r) => [`${r.pdf}-p${r.page}`, r]));
@@ -63,6 +67,7 @@ const lines = [
 ];
 
 let worst = 0;
+let worstEnforced = 0;
 let failures = 0;
 
 for (const key of keys) {
@@ -70,13 +75,16 @@ for (const key of keys) {
   const b = byKeyB.get(key) || {};
   const cells = [key];
 
-  for (const [col] of diffColumns) {
+  for (const [col, , enforce] of diffColumns) {
     const va = a[col];
     const vb = b[col];
     const delta = va != null && vb != null ? Math.abs(va - vb) : null;
-    if (delta != null) worst = Math.max(worst, delta);
+    if (delta != null) {
+      worst = Math.max(worst, delta);
+      if (enforce) worstEnforced = Math.max(worstEnforced, delta);
+    }
     const flag = delta != null && delta > tolerance ? ' ⚠️' : '';
-    if (flag) failures++;
+    if (flag && enforce) failures++;
     cells.push(`${fmt(va)}${flag}`, fmt(vb), delta == null ? 'n/a' : `${delta.toFixed(2)}${flag}`);
   }
 
@@ -88,8 +96,8 @@ lines.push(
   `Max Δ across all renderers/pages: **${worst.toFixed(2)}** percentage points ` +
     `(tolerance ${tolerance.toFixed(2)}). ` +
     (failures === 0
-      ? '✅ All pixeldiffrates agree across OSes.'
-      : `⚠️ ${failures} cell(s) exceed the tolerance.`)
+      ? '✅ pdfconvert-wasm pixeldiffrates agree across OSes.'
+      : `⚠️ ${failures} pdfconvert-wasm cell(s) exceed the tolerance.`)
 );
 
 const report = lines.join('\n') + '\n';
@@ -101,6 +109,8 @@ fs.writeFileSync(outPath, report);
 console.log(`\nComparison written to ${outPath}`);
 
 if (!noFail && failures > 0) {
-  console.error(`\n${failures} pixeldiffrate cell(s) differ by more than ${tolerance} points between ${nameA} and ${nameB}.`);
+  console.error(
+    `\n${failures} pdfconvert-wasm pixeldiffrate cell(s) differ by more than ${tolerance} points between ${nameA} and ${nameB}.`
+  );
   process.exit(1);
 }
