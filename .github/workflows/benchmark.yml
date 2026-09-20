@@ -156,25 +156,21 @@ jobs:
 
       # Build WASM binaries if not present (needed by the Node/browser
       # pdfconvert-wasm renderers).
+      # NOTE: no restore-keys — a partial hit could restore a stale
+      # poppler.js built from older sources (missing newly exported
+      # functions), so we only reuse binaries on an exact key match.
       - name: Cache WASM build artifacts
+        id: wasm-cache
         uses: actions/cache@v6.1.0
         with:
           path: |
             poppler.wasm
             poppler.js
           key: ${{ runner.os }}-poppler-wasm-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
-          restore-keys: |
-            ${{ runner.os }}-poppler-wasm-
 
       - name: Build WASM library if needed
-        if: env.BENCH_SKIP != '1'
-        run: |
-          if [ ! -f poppler.wasm ] || [ ! -f poppler.js ]; then
-            echo "poppler.wasm / poppler.js not found, running build..."
-            npm run build:docker
-          else
-            echo "poppler.wasm and poppler.js found."
-          fi
+        if: env.BENCH_SKIP != '1' && steps.wasm-cache.outputs.cache-hit != 'true'
+        run: npm run build:docker
         shell: bash
 
       # ---------------------------------------------------------------

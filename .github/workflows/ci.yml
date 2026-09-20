@@ -25,14 +25,13 @@ jobs:
         run: npm ci
 
       - name: Cache WASM build artifacts
+        id: wasm-cache
         uses: actions/cache@v6.1.0
         with:
           path: |
             poppler.wasm
             poppler.js
           key: ${{ runner.os }}-poppler-wasm-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
-          restore-keys: |
-            ${{ runner.os }}-poppler-wasm-
 
       - name: Cache test reference files
         id: reference-cache
@@ -57,14 +56,13 @@ jobs:
         if: steps.reference-cache.outputs.cache-hit != 'true'
         run: npm run test:generate
 
+      # Only reuse the cached binaries on an EXACT key match. A partial
+      # restore-keys hit could restore a stale poppler.js built from older
+      # sources (missing newly exported functions), so on any key mismatch
+      # we rebuild from scratch.
       - name: Build WASM library if needed
-        run: |
-          if [ ! -f poppler.wasm ] || [ ! -f poppler.js ]; then
-            echo "poppler.wasm / poppler.js not found, running build..."
-            npm run build
-          else
-            echo "poppler.wasm and poppler.js found."
-          fi
+        if: steps.wasm-cache.outputs.cache-hit != 'true'
+        run: npm run build
 
       - name: Run visual and text regression tests
         run: npm test
