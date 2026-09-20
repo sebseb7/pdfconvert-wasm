@@ -294,13 +294,18 @@ jobs:
           if-no-files-found: error
 
   # ---------------------------------------------------------------
-  # Cross-OS consistency check: the pixeldiffrate of each renderer is
-  # deterministic for a given fixture + WASM binary, so the ubuntu and
-  # windows rows must agree. This job downloads both OS reports and
-  # prints a comparison table to the runner console.
+  # Cross-OS image comparison. EVERY renderer's images are compared
+  # between the two OSes — each renderer against its OWN counterpart
+  # on the other OS (direct PNG-vs-PNG diff, not baseline-relative
+  # diff rates). The pdfconvert-wasm renderers run the same platform-
+  # independent WASM binary, so their output MUST be pixel-identical
+  # and a difference FAILS the job. pdftocairo (different native
+  # poppler builds/fonts per OS) and pdfjs-dist (platform canvas/font
+  # stacks) legitimately differ across OSes — their differences are
+  # printed in the table but never fail the run.
   # ---------------------------------------------------------------
   compare-os:
-    name: Pixel diff comparison (Linux vs Windows)
+    name: Cross-OS image comparison (Linux vs Windows)
     needs: [build-wasm, bench]
     runs-on: ubuntu-latest
     steps:
@@ -312,31 +317,35 @@ jobs:
         with:
           node-version: 22
 
-      - name: Download Linux benchmark report
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Download Linux benchmark images
         uses: actions/download-artifact@v7
         with:
-          name: benchmark-report-ubuntu-latest
+          name: benchmark-images-ubuntu-latest
           path: out/linux
 
-      - name: Download Windows benchmark report
+      - name: Download Windows benchmark images
         uses: actions/download-artifact@v7
         with:
-          name: benchmark-report-windows-latest
+          name: benchmark-images-windows-latest
           path: out/windows
 
-      - name: Compare pixeldiffrates between Linux and Windows
+      - name: Compare all renderer images Linux vs Windows
         run: |
-          node test/benchmark/compare-os.js \
-            out/linux/report.json \
-            out/windows/report.json \
+          node test/benchmark/compare-os-images.js \
+            out/linux \
+            out/windows \
             --name-a Linux --name-b Windows \
-            --tolerance 0.05
+            --tolerance 0.05 \
+            --out out/os-compare.md
         shell: bash
 
-      - name: Upload OS comparison
+      - name: Upload cross-OS comparison report
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: benchmark-os-comparison
-          path: out/linux/report-compare.md
+          path: out/os-compare.md
           if-no-files-found: warn
