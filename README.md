@@ -111,9 +111,11 @@ images.forEach(({ pageNumber, data }) => {
         // 2. Render Pages to PNG directly in browser
         const images = await pdfToPng(file, { dpi: 150 });
 
-        images.forEach(({ pageNumber, dataUrl }) => {
+        images.forEach(({ pageNumber, data }) => {
           const img = document.createElement('img');
-          img.src = dataUrl;
+          const objectUrl = URL.createObjectURL(new Blob([data], { type: 'image/png' }));
+          img.src = objectUrl;
+          img.onload = () => URL.revokeObjectURL(objectUrl);
           img.alt = `Page ${pageNumber}`;
           img.style.maxWidth = '100%';
           img.style.marginBottom = '1rem';
@@ -175,7 +177,7 @@ self.onmessage = async (e) => {
   * **`scaleToX`** (`number`): Scale width to this size in pixels (`-1` for proportional to height).
   * **`scaleToY`** (`number`): Scale height to this size in pixels (`-1` for proportional to width).
   * **`singleFile`** (`boolean`, default: `false`): Only render the first requested page.
-* **Returns**: `Promise<Array<{ pageNumber: number, name: string, data: Uint8Array, blob: Blob | null, dataUrl: string | null }>>`
+* **Returns**: `Promise<Array<{ pageNumber: number, name: string, data: Uint8Array }>>`
 
 ### `splitPdfPages(text)`
 

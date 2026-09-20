@@ -88,7 +88,7 @@ export async function pdfToText(pdfSource, options = {}) {
  * @param {number} [options.scaleToX] - Scale width to this size in pixels (-1 for proportional)
  * @param {number} [options.scaleToY] - Scale height to this size in pixels (-1 for proportional)
  * @param {boolean} [options.singleFile=false] - Only render the first requested page
- * @returns {Promise<Array<{ pageNumber: number, name: string, data: Uint8Array, blob: Blob|null, dataUrl: string|null }>>}
+ * @returns {Promise<Array<{ pageNumber: number, name: string, data: Uint8Array }>>}
  */
 export async function pdfToPng(pdfSource, options = {}) {
   const {
@@ -139,27 +139,10 @@ export async function pdfToPng(pdfSource, options = {}) {
         const data = new Uint8Array(mod.HEAPU8.buffer, pngPtr, pngLen).slice();
         mod._poppler_free(pngPtr);
 
-        let blob = null;
-        if (typeof Blob !== 'undefined') {
-          blob = new Blob([data], { type: 'image/png' });
-        }
-
-        let dataUrl = null;
-        if (typeof btoa !== 'undefined') {
-          let binary = '';
-          const len = data.byteLength;
-          for (let i = 0; i < len; i++) {
-            binary += String.fromCharCode(data[i]);
-          }
-          dataUrl = `data:image/png;base64,${btoa(binary)}`;
-        }
-
         results.push({
           pageNumber: p,
           name: singleFile ? 'page.png' : `page-${p}.png`,
           data,
-          blob,
-          dataUrl,
         });
       }
     }
