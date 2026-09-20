@@ -25,8 +25,65 @@ on:
   workflow_dispatch:
 
 jobs:
+  # ---------------------------------------------------------------
+  # Build the WASM binaries once on Linux. `docker build -o .` needs
+  # BuildKit with a Linux buildkit container, which cannot boot on
+  # Windows runners ("no matching manifest for windows/amd64"), and
+  # the compiled poppler.js/poppler.wasm are platform-independent
+  # anyway — so the OS matrix just reuses the artifact.
+  # ---------------------------------------------------------------
+  build-wasm:
+    name: Build WASM binaries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # Same short-circuit as the bench job: if the report is unchanged,
+      # nothing below needs the binaries.
+      - name: Cache benchmark report
+        id: cache-report
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            test/benchmark/out/report.md
+            test/benchmark/out/report.json
+          key: bench-report-r150-${{ hashFiles('.github/workflows/benchmark.yml', 'src/poppler_lib.cpp', 'Dockerfile', 'index.js') }}-${{ hashFiles('test/fixtures/**/*.pdf') }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Set skip flag
+        if: steps.cache-report.outputs.cache-hit == 'true'
+        run: echo "BENCH_SKIP=1" >> "$GITHUB_ENV"
+        shell: bash
+
+      # NOTE: no runner.os in the key and no restore-keys — the binaries
+      # are platform-independent and only an exact source-hash match is
+      # safe to reuse (a partial hit could restore stale binaries).
+      - name: Cache WASM build artifacts
+        id: wasm-cache
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            poppler.wasm
+            poppler.js
+          key: poppler-wasm-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
+
+      - name: Build WASM library if needed
+        if: env.BENCH_SKIP != '1' && steps.wasm-cache.outputs.cache-hit != 'true'
+        run: npm run build:docker
+
+      - name: Upload WASM binaries
+        if: env.BENCH_SKIP != '1'
+        uses: actions/upload-artifact@v7
+        with:
+          name: poppler-wasm
+          path: |
+            poppler.wasm
+            poppler.js
+          if-no-files-found: error
+
   bench:
     name: Benchmark table (${{ matrix.os }})
+    needs: build-wasm
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -154,11 +211,13 @@ jobs:
           unzip -q -o poppler.zip -d poppler-home
           echo "$(pwd)/poppler-home/poppler-24.08.0/Library/bin" >> "$GITHUB_PATH"
 
-      # Build WASM binaries if not present (needed by the Node/browser
-      # pdfconvert-wasm renderers).
-      # NOTE: no restore-keys — a partial hit could restore a stale
-      # poppler.js built from older sources (missing newly exported
-      # functions), so we only reuse binaries on an exact key match.
+      # ---------------------------------------------------------------
+      # WASM binaries: restore from cache when possible, otherwise
+      # download the artifact built by the build-wasm job (Linux).
+      # NOTE: no runner.os in the key and no restore-keys — the binaries
+      # are platform-independent and only an exact source-hash match is
+      # safe to reuse (a partial hit could restore stale binaries).
+      # ---------------------------------------------------------------
       - name: Cache WASM build artifacts
         id: wasm-cache
         uses: actions/cache@v6.1.0
@@ -166,20 +225,14 @@ jobs:
           path: |
             poppler.wasm
             poppler.js
-          key: ${{ runner.os }}-poppler-wasm-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
+          key: poppler-wasm-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
 
-      # `npm run build:docker` uses `docker build -o .` (custom output
-      # export), which requires BuildKit/buildx. Windows runners ship the
-      # legacy builder by default and fail with "unknown shorthand flag: 'o'
-      # in -o", so set up buildx before building.
-      - name: Set up Docker Buildx
+      - name: Download WASM binaries
         if: env.BENCH_SKIP != '1' && steps.wasm-cache.outputs.cache-hit != 'true'
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build WASM library if needed
-        if: env.BENCH_SKIP != '1' && steps.wasm-cache.outputs.cache-hit != 'true'
-        run: npm run build:docker
-        shell: bash
+        uses: actions/download-artifact@v7
+        with:
+          name: poppler-wasm
+          path: .
 
       # ---------------------------------------------------------------
       # Renderers — each skipped when its cache entry was a hit.
