@@ -10,12 +10,10 @@ name: Rendering Benchmark
 # baseline or the Node.js renderer. Any change to index.js/src/ invalidates
 # the WASM caches, while the (slow) pdftocairo baseline stays cached.
 #
-# Top-level short-circuit: the final benchmark report itself is cached under
-# a key derived from the only inputs that can influence it
-# (.github/workflows/benchmark.yml, src/poppler_lib.cpp, Dockerfile, index.js,
-# plus fixtures and package-lock). If none of those changed, the whole job
-# short-circuits after restoring the cached report, so README, LICENSE,
-# .gitignore and other non-relevant changes do not trigger re-benchmarking.
+# Top-level short-circuit: the final report and each renderer's images are
+# cached independently. Rendering is skipped only when all of those caches
+# hit, which also guarantees that the cross-OS comparison artifacts can be
+# recreated on every workflow run.
 
 on:
   push:
@@ -39,22 +37,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      # Same short-circuit as the bench job: if the report is unchanged,
-      # nothing below needs the binaries.
-      - name: Cache benchmark report
-        id: cache-report
-        uses: actions/cache@v6.1.0
-        with:
-          path: |
-            test/benchmark/out/report.md
-            test/benchmark/out/report.json
-          key: bench-report-r150-${{ hashFiles('.github/workflows/benchmark.yml', 'src/poppler_lib.cpp', 'Dockerfile', 'index.js') }}-${{ hashFiles('test/fixtures/**/*.pdf') }}-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Set skip flag
-        if: steps.cache-report.outputs.cache-hit == 'true'
-        run: echo "BENCH_SKIP=1" >> "$GITHUB_ENV"
-        shell: bash
-
       # NOTE: no runner.os in the key and no restore-keys — the binaries
       # are platform-independent and only an exact source-hash match is
       # safe to reuse (a partial hit could restore stale binaries).
@@ -68,11 +50,10 @@ jobs:
           key: poppler-wasm-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
 
       - name: Build WASM library if needed
-        if: env.BENCH_SKIP != '1' && steps.wasm-cache.outputs.cache-hit != 'true'
+        if: steps.wasm-cache.outputs.cache-hit != 'true'
         run: npm run build:docker
 
       - name: Upload WASM binaries
-        if: env.BENCH_SKIP != '1'
         uses: actions/upload-artifact@v7
         with:
           name: poppler-wasm
@@ -98,8 +79,8 @@ jobs:
         uses: actions/checkout@v7
 
       # ---------------------------------------------------------------
-      # Top-level cache of the final benchmark report. When it hits,
-      # every benchmark step below is skipped (BENCH_SKIP=1).
+      # Top-level cache of the final benchmark report. Rendering is skipped
+      # only when this and all renderer caches below are exact hits.
       # NOTE: no restore-keys — only an exact key match counts as a hit.
       # ---------------------------------------------------------------
       - name: Cache benchmark report
@@ -109,17 +90,7 @@ jobs:
           path: |
             test/benchmark/out/report.md
             test/benchmark/out/report.json
-          key: bench-${{ matrix.os }}-report-r150-${{ hashFiles('.github/workflows/benchmark.yml', 'src/poppler_lib.cpp', 'Dockerfile', 'index.js') }}-${{ hashFiles('test/fixtures/**/*.pdf') }}-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Set skip flag
-        if: steps.cache-report.outputs.cache-hit == 'true'
-        run: echo "BENCH_SKIP=1" >> "$GITHUB_ENV"
-        shell: bash
-
-      - name: Skip notice (report unchanged)
-        if: env.BENCH_SKIP == '1'
-        run: echo "No changes to benchmark inputs (benchmark.yml, src/poppler_lib.cpp, Dockerfile, index.js, fixtures) — skipping benchmark, restoring cached report."
-        shell: bash
+          key: bench-${{ matrix.os }}-report-r150-${{ hashFiles('.github/workflows/benchmark.yml', 'src/poppler_lib.cpp', 'Dockerfile', 'index.js', 'index.node.js', 'node-worker-*.js', 'package.json') }}-${{ hashFiles('test/fixtures/**/*.pdf') }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v7
@@ -151,7 +122,7 @@ jobs:
           path: |
             test/benchmark/out/nodejs-pdfconvert-wasm
             test/benchmark/out/timings-node.json
-          key: bench-${{ matrix.os }}-nodewasm-r150-${{ hashFiles('src/**', 'index.js', 'Dockerfile') }}
+          key: bench-${{ matrix.os }}-nodewasm-r150-${{ hashFiles('src/**', 'index.js', 'index.node.js', 'node-worker-*.js', 'package.json', 'Dockerfile') }}
           restore-keys: |
             bench-${{ matrix.os }}-nodewasm-r150-
 
@@ -186,6 +157,25 @@ jobs:
           path: |
             test/benchmark/out/playwright-pdfjs-dist
           key: bench-${{ matrix.os }}-pdfjs-r150-${{ hashFiles('test/fixtures/**/*.pdf') }}-${{ hashFiles('**/package-lock.json') }}
+
+      # A cached report alone is insufficient: compare-os also needs every
+      # renderer's images. Only skip rendering when the report and all image
+      # caches were restored, so the image artifact can always be uploaded.
+      - name: Set skip flag
+        if: >-
+          steps.cache-report.outputs.cache-hit == 'true' &&
+          steps.cache-pdftocairo.outputs.cache-hit == 'true' &&
+          steps.cache-node-wasm.outputs.cache-hit == 'true' &&
+          steps.cache-node-pdfjs.outputs.cache-hit == 'true' &&
+          steps.cache-browser-wasm.outputs.cache-hit == 'true' &&
+          steps.cache-browser-pdfjs.outputs.cache-hit == 'true'
+        run: echo "BENCH_SKIP=1" >> "$GITHUB_ENV"
+        shell: bash
+
+      - name: Skip notice (all outputs unchanged)
+        if: env.BENCH_SKIP == '1'
+        run: echo "All benchmark reports and renderer images were restored from cache — skipping rendering."
+        shell: bash
 
       - name: Install npm dependencies
         if: env.BENCH_SKIP != '1'
@@ -286,7 +276,6 @@ jobs:
           if-no-files-found: error
 
       - name: Upload benchmark images
-        if: env.BENCH_SKIP != '1'
         uses: actions/upload-artifact@v7
         with:
           name: benchmark-images-${{ matrix.os }}
